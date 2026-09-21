@@ -1,2 +1,3 @@
-Strategy Occupancy  Seed  N_Trips  Avg_Cruising_Time (s)  Total_CO2 (kg)
-Assigned        85  60.0    170.0                  82.09           43.26
+version https://git-lfs.github.com/spec/v1
+oid sha256:88fd6a3931736bf622eb0e883494434c71ef34f778fb63390959e9aa11af2c2c
+size 148

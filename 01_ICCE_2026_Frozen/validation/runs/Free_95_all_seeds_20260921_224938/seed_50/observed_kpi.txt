@@ -1,9 +1,3 @@
-Seed=50
-Is_Truncated=True
-N_Trips=172
-Avg_Cruising_Time_s=79.912790697674
-Total_CO2_kg=42.609500000000
-Trips_with_stopTime_gt_1s=167
-Trips_with_stopTime_le_1s=5
-Vaporized_traci=71
-RouteLength_zero=0
+version https://git-lfs.github.com/spec/v1
+oid sha256:b82517ec6d372b3803f7bea6f5ed40d23707aeec9cc926ee316c2478124cf57d
+size 208

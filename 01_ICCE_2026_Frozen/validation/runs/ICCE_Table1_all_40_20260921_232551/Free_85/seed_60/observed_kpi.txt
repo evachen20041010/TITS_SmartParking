@@ -1,12 +1,3 @@
-Scenario=Free_85
-Strategy=free
-Occupancy=85
-Seed=60
-Is_Truncated=False
-N_Trips=170
-Avg_Cruising_Time_s=78.058823529412
-Total_CO2_kg=41.137000000000
-Trips_with_stopTime_gt_1s=165
-Trips_with_stopTime_le_1s=5
-Vaporized_traci=118
-RouteLength_zero=0
+version https://git-lfs.github.com/spec/v1
+oid sha256:2d8a670c790425f77ddbca63f1920d41e2d281bc85969a58e5193e18f07747fb
+size 257

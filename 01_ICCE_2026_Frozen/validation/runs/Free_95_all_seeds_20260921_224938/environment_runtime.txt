@@ -1,11 +1,3 @@
-timestamp=20260921_224938
-python_version=3.10.18 | packaged by Anaconda, Inc. | (main, Jun  5 2025, 13:08:55) [MSC v.1929 64 bit (AMD64)]
-python_executable=C:\Users\user\anaconda3\envs\sumo_py310\python.exe
-sumo_executable=C:\Users\user\anaconda3\envs\sumo_py310\Scripts\sumo.EXE
-sumo_version=Eclipse SUMO sumo Version 1.24.0
-SUMO_HOME=C:\Program Files (x86)\Eclipse\Sumo\
-traci_file=C:\Program Files (x86)\Eclipse\Sumo\tools\traci\__init__.py
-archive=C:\TITS_SmartParking\00_archive\sumo_parking_ICCE_2026_original.zip
-snapshot=C:\TITS_SmartParking\01_ICCE_2026_Frozen\snapshot\sumo_parking
-case=Free_95
-seeds=10,20,30,40,50,60,70,80,90,100
+version https://git-lfs.github.com/spec/v1
+oid sha256:56f72addca07a8eb27c1358419300d7b909028e196f9fb49e2457ef9672ae81b
+size 653

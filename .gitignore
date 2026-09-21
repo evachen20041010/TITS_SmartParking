@@ -1,20 +1,18 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
 
 # IDE
 .vscode/
 .idea/
 
-# T-ITS raw simulation outputs
-02_Exp1_FreeSearch_v2/raw/
-02_Exp1_FreeSearch_v2/logs/
+# OS
+.DS_Store
+Thumbs.db
 
-# Temporary/generated SUMO outputs in v2
-02_Exp1_FreeSearch_v2/**/*.tripinfo.xml
-02_Exp1_FreeSearch_v2/**/*.emissions.xml
-02_Exp1_FreeSearch_v2/**/*.fcd.xml
-
-# Keep processed/validation results
-!02_Exp1_FreeSearch_v2/processed/
-!02_Exp1_FreeSearch_v2/validation/
+# Temporary files
+*.tmp
+*.bak
+~$*
+local_paths.yaml

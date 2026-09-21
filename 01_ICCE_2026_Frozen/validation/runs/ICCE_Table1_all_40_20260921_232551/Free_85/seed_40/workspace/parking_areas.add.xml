@@ -1,12 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<additional>
-    <parkingArea id="PA_Z1_G" lane="E1_0" startPos="10"  endPos="50"  roadsideCapacity="40" onRoad="false"/>
-    <parkingArea id="PA_Z1_F" lane="E1_0" startPos="60"  endPos="80"  roadsideCapacity="10" onRoad="false"/>
-    <parkingArea id="PA_Z1_D" lane="E1_0" startPos="90"  endPos="100" roadsideCapacity="5"  onRoad="false"/>
-
-    <parkingArea id="PA_Z2_G" lane="E2_0" startPos="10"  endPos="80"  roadsideCapacity="50" onRoad="false"/>
-    <parkingArea id="PA_Z2_F" lane="E2_0" startPos="90"  endPos="110" roadsideCapacity="10" onRoad="false"/>
-    <parkingArea id="PA_Z2_D" lane="E2_0" startPos="120" endPos="130" roadsideCapacity="5"  onRoad="false"/>
-
-    <parkingArea id="PA_Z3_G" lane="E3_0" startPos="10"  endPos="150" roadsideCapacity="80" onRoad="false"/>
-</additional>
+version https://git-lfs.github.com/spec/v1
+oid sha256:ab8bb45fde9bd547ad94a37c7c4dd0a14bcaffb80814a8d9b3d3e7003e9bed34
+size 841

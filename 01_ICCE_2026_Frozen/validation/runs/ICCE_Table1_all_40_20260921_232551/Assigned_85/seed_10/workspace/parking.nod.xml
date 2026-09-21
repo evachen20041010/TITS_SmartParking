@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<nodes version="1.16" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
-    <node id="J0" x="0.0" y="0.0" type="dead_end"/>
-    <node id="J1" x="200.0" y="0.0" type="priority"/>
-    <node id="J2" x="400.0" y="0.0" type="priority"/>
-    <node id="J3" x="600.0" y="0.0" type="dead_end"/>
-</nodes>
+version https://git-lfs.github.com/spec/v1
+oid sha256:436c6df8794953646a09a81401f7cd37f908c448e5e9f334efa778656d01ee1d
+size 414

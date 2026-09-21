@@ -1,15 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
-    <input>
-        <net-file value="parking_lot.net.xml"/>
-        <route-files value="traffic.rou.xml"/>
-        <additional-files value="parking_areas.add.xml"/>
-    </input>
-    <time>
-        <begin value="0"/>
-        <end value="3600"/>
-    </time>
-    <processing>
-        <time-to-teleport value="-1"/>
-    </processing>
-</configuration>
+version https://git-lfs.github.com/spec/v1
+oid sha256:1420c659af81602578cc5595198836e73fa70677426e4ee85e52a337cde71e31
+size 546
