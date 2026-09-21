@@ -1,0 +1,12 @@
+Scenario=Free_85
+Strategy=free
+Occupancy=85
+Seed=90
+Is_Truncated=True
+N_Trips=158
+Avg_Cruising_Time_s=79.183544303797
+Total_CO2_kg=38.784100000000
+Trips_with_stopTime_gt_1s=157
+Trips_with_stopTime_le_1s=1
+Vaporized_traci=92
+RouteLength_zero=0

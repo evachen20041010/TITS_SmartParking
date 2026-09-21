@@ -1,0 +1,17 @@
+ICCE-TW 2026 Milestone 0C - Complete 40-run Table-I reproduction
+
+Exact core matches: 40/40
+Runs passing 5% criterion: 40/40
+
+Scenario aggregates:
+Free_85: Archived trips=166.800000, Observed trips=166.800000; Archived cruise=78.872922468121, Observed cruise=78.872922468121; Archived CO2=40.778020, Observed CO2=40.778020; Archived trunc=3/10, Observed trunc=3/10
+Free_95: Archived trips=174.900000, Observed trips=174.900000; Archived cruise=78.988812141207, Observed cruise=78.988812141207; Archived CO2=42.807280, Observed CO2=42.807280; Archived trunc=8/10, Observed trunc=8/10
+Assigned_85: Archived trips=170.000000, Observed trips=170.000000; Archived cruise=73.945294117647, Observed cruise=73.945294117647; Archived CO2=38.969170, Observed CO2=38.969170; Archived trunc=0/10, Observed trunc=0/10
+Assigned_95: Archived trips=190.000000, Observed trips=190.000000; Archived cruise=74.555263157895, Observed cruise=74.555263157895; Archived CO2=43.913050, Observed CO2=43.913050; Archived trunc=0/10, Observed trunc=0/10
+
+Historical note:
+The archived Free_95 outputs contain 8/10 truncated runs (80%),
+although the ICCE-TW manuscript states 70%. This validation preserves
+the archived simulation as ground truth and does not alter it.
+
+Milestone 0C verdict: PASS

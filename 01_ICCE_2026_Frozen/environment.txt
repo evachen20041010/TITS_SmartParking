@@ -1,0 +1,8 @@
+Date:2026/3（2026/9 整理）（原檔 sumo_parking_ICCE_2026_original.zip）
+OS:windows 11
+SUMO version:1.24.0
+Python version:3.10.18
+TraCI:SUMO 1.24.0 tools
+Git commit:
+CPU:
+RAM:

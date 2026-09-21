@@ -1,0 +1,9 @@
+Seed=30
+Is_Truncated=False
+N_Trips=190
+Avg_Cruising_Time_s=75.810526315789
+Total_CO2_kg=44.652400000000
+Trips_with_stopTime_gt_1s=183
+Trips_with_stopTime_le_1s=7
+Vaporized_traci=77
+RouteLength_zero=0

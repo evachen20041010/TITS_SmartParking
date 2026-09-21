@@ -1,0 +1,5 @@
+﻿Scenario,Strategy,Occupancy_pct,Archived_Mean_N_Trips,Observed_Mean_N_Trips,Archived_Mean_Cruising_s,Observed_Mean_Cruising_s,Archived_Mean_Total_CO2_kg,Observed_Mean_Total_CO2_kg,Archived_Truncated_Runs,Observed_Truncated_Runs,Archived_P_Truncated,Observed_P_Truncated
+Free_85,free,85,166.8,166.8,78.87292246812116,78.87292246812116,40.77801999999999,40.77801999999999,3,3,0.3,0.3
+Free_95,free,95,174.9,174.9,78.98881214120675,78.98881214120675,42.80728,42.80728,8,8,0.8,0.8
+Assigned_85,assigned,85,170.0,170.0,73.94529411764705,73.94529411764705,38.969170000000005,38.969170000000005,0,0,0.0,0.0
+Assigned_95,assigned,95,190.0,190.0,74.55526315789473,74.55526315789473,43.91305,43.91305,0,0,0.0,0.0

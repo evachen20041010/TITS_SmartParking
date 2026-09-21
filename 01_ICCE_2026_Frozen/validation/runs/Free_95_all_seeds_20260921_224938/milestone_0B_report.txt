@@ -1,0 +1,20 @@
+ICCE-TW 2026 Milestone 0B - Free_95 all seeds
+
+Exact core matches: 10/10
+Seeds passing 5% criterion: 10/10
+
+Archived aggregate:
+Mean_N_Trips=174.900000000000
+Mean_Avg_Cruising_Time_s=78.988812141207
+Mean_Total_CO2_kg=42.807280000000
+N_Truncated=8
+P_Truncated=0.800000000000
+
+Observed aggregate:
+Mean_N_Trips=174.900000000000
+Mean_Avg_Cruising_Time_s=78.988812141207
+Mean_Total_CO2_kg=42.807280000000
+N_Truncated=8
+P_Truncated=0.800000000000
+
+Milestone 0B verdict: PASS

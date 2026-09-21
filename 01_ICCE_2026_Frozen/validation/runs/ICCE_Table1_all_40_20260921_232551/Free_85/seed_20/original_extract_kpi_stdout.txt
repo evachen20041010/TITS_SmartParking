@@ -1,0 +1,2 @@
+Strategy Occupancy  Seed  N_Trips  Avg_Cruising_Time (s)  Total_CO2 (kg)
+    Free        85  20.0    170.0                  81.21            42.8

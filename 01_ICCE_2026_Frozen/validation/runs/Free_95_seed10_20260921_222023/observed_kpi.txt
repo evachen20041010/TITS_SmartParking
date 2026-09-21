@@ -1,0 +1,7 @@
+N_Trips=152
+Avg_Cruising_Time_s=79.552631578947
+Total_CO2_kg=37.485200000000
+Trips_with_stopTime_gt_1s=149
+Trips_with_stopTime_le_1s=3
+Vaporized_traci=97
+RouteLength_zero=0

@@ -1,0 +1,6 @@
+﻿Metric,Archived,Observed,Relative_Error,Pass_5pct
+Mean_N_Trips,174.9,174.9,0.0,True
+Mean_Avg_Cruising_Time_s,78.98881214120675,78.98881214120675,0.0,True
+Mean_Total_CO2_kg,42.80728,42.80728,0.0,True
+N_Truncated,8.0,8.0,0.0,True
+P_Truncated,0.8,0.8,0.0,True

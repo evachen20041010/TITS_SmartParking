@@ -1,0 +1,5 @@
+﻿Metric,Expected,Observed,Relative_Error,Pass_5pct
+Is_Truncated,True,True,,True
+N_Trips,152.0,152.0,0.0,True
+Avg_Cruising_Time_s,79.55263157894737,79.55263157894737,0.0,True
+Total_CO2_kg,37.4852,37.4852,0.0,True

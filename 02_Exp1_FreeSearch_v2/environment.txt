@@ -1,0 +1,31 @@
+Project:
+T-ITS Smart Parking - Experiment 1
+
+Python:
+3.10.18
+
+Python executable:
+C:\Users\user\anaconda3\envs\sumo_py310\python.exe
+
+Other Python executables found on PATH:
+C:\Users\user\anaconda3\python.exe
+C:\Users\user\AppData\Local\Programs\Python\Python313\python.exe
+C:\Users\user\AppData\Local\Microsoft\WindowsApps\python.exe
+
+SUMO:
+1.24.0
+
+SUMO executable:
+C:\Users\user\anaconda3\envs\sumo_py310\Scripts\sumo.exe
+
+Other SUMO executables found on PATH:
+C:\Program Files (x86)\Eclipse\Sumo\bin\sumo.exe
+
+TraCI:
+C:\Program Files (x86)\Eclipse\Sumo\tools\traci\__init__.py
+
+OS:
+Windows 11
+
+Experiment status:
+Development / not yet frozen
