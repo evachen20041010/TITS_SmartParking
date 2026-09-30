@@ -1,0 +1,8 @@
+parking_area_id,zone,type_code,space_type,lane,edge,lane_length_m,lane_speed_mps,start_pos,end_pos,capacity,on_road
+PA_Z1_G,1,G,general,E1_0,E1,200.0,13.89,10.0,50.0,40,false
+PA_Z1_F,1,F,family,E1_0,E1,200.0,13.89,60.0,80.0,10,false
+PA_Z1_D,1,D,disabled,E1_0,E1,200.0,13.89,90.0,100.0,5,false
+PA_Z2_G,2,G,general,E2_0,E2,200.0,13.89,10.0,80.0,50,false
+PA_Z2_F,2,F,family,E2_0,E2,200.0,13.89,90.0,110.0,10,false
+PA_Z2_D,2,D,disabled,E2_0,E2,200.0,13.89,120.0,130.0,5,false
+PA_Z3_G,3,G,general,E3_0,E3,200.0,13.89,10.0,150.0,80,false

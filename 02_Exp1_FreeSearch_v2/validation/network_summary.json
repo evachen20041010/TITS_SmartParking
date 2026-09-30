@@ -1,0 +1,35 @@
+{
+  "network_dir": "C:\\TITS_SmartParking\\02_Exp1_FreeSearch_v2\\network\\canonical",
+  "net_file": "C:\\TITS_SmartParking\\02_Exp1_FreeSearch_v2\\network\\canonical\\parking_lot.net.xml",
+  "parking_file": "C:\\TITS_SmartParking\\02_Exp1_FreeSearch_v2\\network\\canonical\\parking_areas.add.xml",
+  "edge_count_non_internal": 3,
+  "lane_count_non_internal": 3,
+  "parking_area_count": 7,
+  "capacity_total": 200,
+  "capacity_by_type": {
+    "disabled": 10,
+    "family": 20,
+    "general": 170
+  },
+  "capacity_by_zone": {
+    "1": 55,
+    "2": 65,
+    "3": 80
+  },
+  "capacity_by_zone_and_type": {
+    "Z1_disabled": 5,
+    "Z1_family": 10,
+    "Z1_general": 40,
+    "Z2_disabled": 5,
+    "Z2_family": 10,
+    "Z2_general": 50,
+    "Z3_general": 80
+  },
+  "vehicle_class": "general",
+  "legal_space_types": [
+    "general"
+  ],
+  "effective_capacity": 170,
+  "validation_errors": [],
+  "status": "PASS"
+}

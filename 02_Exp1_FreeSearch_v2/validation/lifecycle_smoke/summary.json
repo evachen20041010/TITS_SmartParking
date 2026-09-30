@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "vehicle_count": 3,
+  "completed": 3,
+  "removed_error": 0,
+  "max_abs_mass_balance_error": 0,
+  "parking_area": "PA_Z2_G",
+  "parking_duration_s": 15.0,
+  "search_start_pos_m": 5.0,
+  "final_sim_time_s": 90.0,
+  "sequence_results": {
+    "smoke_000": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "pass": true
+    },
+    "smoke_001": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "pass": true
+    },
+    "smoke_002": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "pass": true
+    }
+  }
+}
