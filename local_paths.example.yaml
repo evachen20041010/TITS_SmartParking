@@ -1,0 +1,41 @@
+# Local machine paths / 本機路徑設定範例
+#
+# Copy this file to local_paths.yaml.
+# 請將此檔複製為 local_paths.yaml。
+#
+# Commit this example file, but do NOT commit local_paths.yaml.
+# 本範例檔可提交至 Git；local_paths.yaml 不要提交。
+#
+# Only machine-specific paths belong here.
+# 這裡只放每台電腦不同的本機路徑。
+#
+# Do NOT put rho, seeds, C_eff, parking-duration parameters,
+# detector thresholds, or other research parameters here.
+# rho、seed、C_eff、停車時間參數、偵測門檻等研究參數不得放在此處。
+
+paths:
+  # External/raw-data root. Keep null while all data remain in this repository.
+  # 外部／大型原始資料根目錄。若目前資料仍全部位於本 repository，可暫時設為 null。
+  external_data_root: null
+  # Example:
+  # external_data_root: "D:/TITS_SmartParking_Data"
+
+  # Eclipse SUMO installation directory.
+  # Eclipse SUMO 安裝目錄。
+  sumo_home: "C:/Program Files (x86)/Eclipse/Sumo"
+
+  # Exact binaries used by the official simulation environment.
+  # 正式模擬環境使用的執行檔。
+  sumo_binary: "C:/Users/user/anaconda3/envs/sumo_py310/Scripts/sumo.exe"
+  sumo_gui_binary: "C:/Users/user/anaconda3/envs/sumo_py310/Scripts/sumo-gui.exe"
+  python_executable: "C:/Users/user/anaconda3/envs/sumo_py310/python.exe"
+
+environment:
+  # Informational only; program logic must not depend on this string.
+  # 僅供紀錄；程式邏輯不得依賴此字串。
+  conda_env_name: "sumo_py310"
+
+notes:
+  # Example: "home desktop", "lab workstation".
+  # 例如：「家用桌機」、「實驗室工作站」。
+  machine_label: "CHANGE_ME"

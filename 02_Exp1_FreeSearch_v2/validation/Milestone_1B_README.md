@@ -25,11 +25,9 @@ completed
 ```
 
 An additional terminal state, `removed_error`, is used only when a vehicle unexpectedly disappears or is removed from the simulation.
-
 A formal experiment run is invalid if:
 
 另外定義一個終止狀態 `removed_error`，僅用於記錄車輛在模擬中非預期消失或被移除的情況。
-
 若正式實驗中出現下列情況，該次實驗應判定為無效：
 
 ```text
@@ -43,11 +41,9 @@ removed_error > 0
 ### `outside`
 
 The demand-arrival event has occurred, but the vehicle has not yet been successfully inserted into the SUMO network.
-
 Future scheduled vehicles are not counted as `outside` before their arrival time.
 
 車輛的需求到達事件已經發生，但尚未成功插入 SUMO 路網。
-
 尚未到達預定時間的未來車輛，不計入 `outside`。
 
 ### `entry_queue`
@@ -83,11 +79,9 @@ The vehicle has normally exited the modeled system.
 ### `removed_error`
 
 The vehicle disappeared or was unexpectedly removed before normal completion.
-
 This state preserves accounting consistency but causes formal-run quality control to fail.
 
 車輛在正常完成生命週期之前，非預期地消失或被移除。
-
 此狀態的目的在於維持帳目一致性，但正式實驗的品質檢查必須判定為失敗。
 
 ---
@@ -191,13 +185,9 @@ entry_queue
 
 ## Quality-Control Principle / 品質控制原則
 
-The simulator must never silently lose a vehicle.
+The simulator must never silently lose a vehicle. If a vehicle unexpectedly disappears from SUMO, it must be explicitly recorded as:
 
-If a vehicle unexpectedly disappears from SUMO, it must be explicitly recorded as:
-
-模擬器不得在沒有紀錄的情況下讓車輛憑空消失。
-
-若 SUMO 中的車輛非預期消失，必須明確記錄為：
+模擬器不得在沒有紀錄的情況下讓車輛憑空消失。若 SUMO 中的車輛非預期消失，必須明確記錄為：
 
 ```text
 removed_error
@@ -213,19 +203,19 @@ The mass balance may still remain mathematically valid, but the corresponding fo
 
 The current unit tests verify:
 
-1. Normal complete vehicle lifecycle. 正常完整生命週期。
+1. Normal complete vehicle lifecycle.（正常完整生命週期）
 
-2. Rejection of illegal state transitions. 拒絕非法狀態轉移。
+2. Rejection of illegal state transitions.（拒絕非法狀態轉移）
 
-3. Rejection of duplicate vehicle IDs. 拒絕重複的車輛 ID。
+3. Rejection of duplicate vehicle IDs.（拒絕重複的車輛 ID）
 
-4. Rejection of non-monotonic transition times. 拒絕時間倒退的狀態轉移。
+4. Rejection of non-monotonic transition times.（拒絕時間倒退的狀態轉移）
 
-5. Confirmation that `completed` is a terminal state. 確認 `completed` 為終止狀態。
+5. Confirmation that `completed` is a terminal state.（確認 `completed` 為終止狀態）
 
-6. Confirmation that `removed_error` preserves mass balance but fails formal-run quality control. 確認 `removed_error` 可維持質量平衡，但正式實驗品質檢查必須失敗。
+6. Confirmation that `removed_error` preserves mass balance but fails formal-run quality control.（確認 `removed_error` 可維持質量平衡，但正式實驗品質檢查必須失敗）
 
-7. Mass-balance verification for multiple vehicles in different states. 驗證多車處於不同狀態時的質量平衡。
+7. Mass-balance verification for multiple vehicles in different states.（驗證多車處於不同狀態時的質量平衡）
 
 Run the tests using:
 
@@ -246,11 +236,9 @@ OK
 ## Current Scope / 本階段範圍
 
 Milestone 1B validates the vehicle lifecycle and accounting logic independently of SUMO demand generation.
-
 The following components are introduced only after this milestone passes:
 
 Milestone 1B 目前只驗證車輛生命週期與帳務邏輯，不處理 SUMO 動態需求生成。
-
 以下功能將在本階段通過後才加入：
 
 ```text

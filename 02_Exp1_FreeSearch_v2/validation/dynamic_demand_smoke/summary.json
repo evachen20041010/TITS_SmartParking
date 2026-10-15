@@ -1,0 +1,175 @@
+{
+  "status": "PASS",
+  "formal_experiment": false,
+  "purpose": "Milestone 1C-3 integration smoke test only",
+  "master_seed": 10,
+  "arrival_stream_seed": 17945194866001373178,
+  "parking_stream_seed": 4575322358561948879,
+  "arrival_rate_per_s": 0.04,
+  "demand_start_s": 0.0,
+  "demand_end_s": 120.0,
+  "parking_mean_s": 20.0,
+  "parking_cv": 0.25,
+  "control_step_s": 1.0,
+  "generated_arrivals": 7,
+  "released_arrivals": 7,
+  "completed": 7,
+  "removed_error": 0,
+  "max_abs_mass_balance_error": 0,
+  "max_release_delay_s": 0.9312152104140328,
+  "release_delay_rule_pass": true,
+  "outside_visible_for_one_epoch": true,
+  "entry_queue_visible_for_one_epoch": true,
+  "arrival_schedule_sha256": "b7f82c86dab310b60f3f14603b951f0caf8fb9cb68704ccd9a9bdb4e8fbfbd00",
+  "parking_duration_sha256": "834e02d07302b1348f455a146dc9f97af2dea2c9c6c1c46af5b219e6c6f3b4ce",
+  "final_sim_time_s": 162.0,
+  "lifecycle_results": {
+    "dyn_000000": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    },
+    "dyn_000001": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    },
+    "dyn_000002": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    },
+    "dyn_000003": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    },
+    "dyn_000004": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    },
+    "dyn_000005": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    },
+    "dyn_000006": {
+      "actual": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "expected": [
+        "outside",
+        "entry_queue",
+        "cruising",
+        "parked",
+        "departing",
+        "completed"
+      ],
+      "sequence_pass": true,
+      "outside_visible_for_one_epoch": true,
+      "entry_queue_visible_for_one_epoch": true
+    }
+  }
+}

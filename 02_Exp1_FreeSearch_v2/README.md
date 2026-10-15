@@ -1,11 +1,9 @@
 # T-ITS Experiment 1 — Free-Search Instability and Critical-Load Characterization / 自由搜尋失穩與臨界負載特性分析
 
 This directory contains the simulation framework for Experiment 1 of the IEEE Transactions on Intelligent Transportation Systems (T-ITS) research project.
-
 The purpose of Experiment 1 is to determine whether decentralized bounded-rational parking search exhibits a reproducible transition from stable operation to congestion and gridlock as offered parking load increases.
 
 本目錄包含 IEEE Transactions on Intelligent Transportation Systems（T-ITS）研究計畫之 Experiment 1 模擬框架。
-
 Experiment 1 的目的，是確認在沒有中央控制器介入的情況下，去中心化且具有限理性的停車搜尋行為，是否會隨 offered parking load 增加，出現可重現的穩定、轉換與失穩／壅塞狀態。
 
 ---
@@ -35,15 +33,11 @@ The historical ICCE-TW 2026 simulator and outputs are preserved separately under
 ```
 
 The ICCE baseline was reproduced before development of this Experiment 1 simulator.
-
 The complete historical experiment contains four scenarios and ten seeds per scenario, for a total of 40 runs. The archived core results were reproduced exactly.
-
 The T-ITS Experiment 1 simulator does not extend the old ICCE controller directly. It inherits the canonical parking-lot geometry but rebuilds demand generation, vehicle lifecycle accounting, free-search behavior, logging, and instability detection independently.
 
 在建立 Experiment 1 simulator 之前，已完成 ICCE baseline 重現。
-
 完整歷史實驗包含四個情境，每個情境使用十個 random seeds，共 40 runs；核心 archived results 已可精確重現。
-
 T-ITS Experiment 1 不直接修改或延伸舊 ICCE controller。僅沿用 canonical parking-lot geometry；需求生成、車輛生命週期、自由搜尋行為、logging 與失穩偵測均重新獨立建構。
 
 ---
@@ -73,13 +67,9 @@ Disabled (D)  : 10
 Total         : 200
 ```
 
-Experiment 1-Core studies general vehicles only under strict legal parking constraints.
+Experiment 1-Core studies general vehicles only under strict legal parking constraints. Therefore, the effective parking capacity is:
 
-Therefore, the effective parking capacity is:
-
-Experiment 1-Core 第一階段僅研究一般車輛，並採嚴格合法車位限制。
-
-因此有效停車容量定義為：
+Experiment 1-Core 第一階段僅研究一般車輛，並採嚴格合法車位限制。因此有效停車容量定義為：
 
 ```text
 C_eff = 170
@@ -117,11 +107,9 @@ C_eff = 170
 ```
 
 Actual occupancy is generated endogenously by the simulator and is not forced to equal `rho`.
-
 The intended causal chain is:
 
 實際 occupancy 由 simulator 內生產生，不會被強制設定成與 `rho` 相同。
-
 預期的因果鏈為：
 
 ```text
@@ -158,13 +146,9 @@ An additional terminal state is used for abnormal accounting:
 removed_error
 ```
 
-`removed_error` preserves mass balance when a vehicle unexpectedly disappears, but any formal experiment containing such a vehicle is invalid.
+`removed_error` preserves mass balance when a vehicle unexpectedly disappears, but any formal experiment containing such a vehicle is invalid. At every simulation step:
 
-At every simulation step:
-
-`removed_error` 用來在車輛非預期消失時維持質量平衡；但任何包含此狀態的正式實驗都必須判定為無效。
-
-每一個 simulation step 都必須滿足：
+`removed_error` 用來在車輛非預期消失時維持質量平衡；但任何包含此狀態的正式實驗都必須判定為無效。每一個 simulation step 都必須滿足：
 
 ```text
 N_generated_to_date
@@ -369,13 +353,9 @@ Formal simulation runs must satisfy the following requirements（正式 simulati
 
 ## Development Principle / 開發原則
 
-Each new mechanism is validated independently before it is included in formal experiments.
+Each new mechanism is validated independently before it is included in formal experiments. The development sequence is:
 
-The development sequence is:
-
-每一項新機制都必須先獨立驗證，通過後才能納入正式實驗。
-
-開發順序為：
+每一項新機制都必須先獨立驗證，通過後才能納入正式實驗。開發順序為：
 
 ```text
 historical reproduction

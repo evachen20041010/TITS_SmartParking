@@ -9,15 +9,11 @@ Source network:
 ```
 
 The network geometry and parking-area definitions originate from the reproduced ICCE-TW 2026 experiment.
-
 The T-ITS Experiment 1 demand process, vehicle lifecycle, free-search behavior, logging, and gridlock detection are rebuilt independently.
-
 The purpose of inheriting the ICCE geometry is to preserve a common physical baseline while separating the new T-ITS experimental logic from the historical implementation.
 
 本路網的幾何結構與停車區定義源自已完成重現驗證的 ICCE-TW 2026 實驗。
-
 T-ITS Experiment 1 的需求生成、車輛生命週期、自由搜尋行為、資料記錄與 gridlock detection 均重新獨立建構，不直接沿用 ICCE simulator 的控制邏輯。
-
 沿用 ICCE geometry 的目的，是保留一致的物理場域基準，同時將新的 T-ITS 實驗邏輯與歷史實作明確分離。
 
 ---
@@ -131,11 +127,9 @@ rho = lambda * E[T_park] / 170
 ```
 
 `rho` is not the same as instantaneous occupancy.
-
 Actual occupancy must emerge endogenously from arrivals, parking durations, parking search, and departures.
 
 `rho` 不等同於任一時間點的實際 occupancy。
-
 實際 occupancy 必須由車輛到達、停車時間、搜尋行為與離場過程自然形成。
 
 ---
@@ -239,11 +233,9 @@ walking destination
 ```
 
 while studying the effect of offered load.
-
 Any future geometry or parking-capacity modification must be committed together with:
 
 在研究 offered load 的影響時，上述條件應維持固定。
-
 未來如修改路網 geometry 或停車容量，必須同步保存：
 
 ```text

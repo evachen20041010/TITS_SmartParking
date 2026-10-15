@@ -1,0 +1,9 @@
+{
+  "include": [
+    "02_Exp1_FreeSearch_v2"
+  ],
+  "extraPaths": [
+    "02_Exp1_FreeSearch_v2"
+  ],
+  "typeCheckingMode": "basic"
+}

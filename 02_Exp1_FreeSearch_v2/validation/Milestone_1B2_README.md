@@ -17,8 +17,8 @@ outside
 → completed
 ```
 
-Three vehicles are released at fixed times and are assigned a fixed legal
-parking area. This is **not** a free-search experiment.
+Three vehicles are released at fixed times and are assigned a fixed legal parking area.
+This is **not** a free-search experiment.
 
 三台車會在固定時間進入系統，並被指定至固定且合法的停車區。
 本測試**不是**自由搜尋實驗。
