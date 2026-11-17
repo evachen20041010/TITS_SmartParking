@@ -1,265 +1,95 @@
-# Milestone 1B — Vehicle Lifecycle and Mass Balance / 車輛生命週期與質量平衡
+# Milestone 1B - Vehicle Lifecycle and Mass Balance / 車輛生命週期與質量平衡
 
-This milestone establishes the vehicle lifecycle model and mass-balance rules used in T-ITS Experiment 1. The lifecycle logic is validated independently before it is connected to dynamic SUMO demand generation.
+## Objective / 目的
 
-本階段建立 T-ITS Experiment 1 所使用的車輛生命週期模型與質量平衡規則。在與 SUMO 動態需求產生機制整合之前，先獨立驗證生命週期邏輯是否正確。
+Milestone 1B validates the vehicle state machine and conservation ledger before dynamic demand and search behavior are added. Its Python unit-test milestone has been completed, and real-SUMO lifecycle integration was separately validated in Milestone 1B-2.
 
----
+Milestone 1B 先驗證車輛狀態機與帳務守恆，再逐步加入動態需求與搜尋行為。本階段已通過 Python 單元測試，並在 Milestone 1B-2 另行完成真實 SUMO 生命週期整合驗證。
 
-## Vehicle Lifecycle / 車輛生命週期
+## Normal lifecycle / 正常生命週期
 
-The normal vehicle lifecycle is:
+The only normal state sequence is（唯一正常狀態順序如下）:
 
 ```text
-outside
-  ↓
-entry_queue
-  ↓
-cruising
-  ↓
-parked
-  ↓
-departing
-  ↓
-completed
+outside -> entry_queue -> cruising -> parked -> departing -> completed
 ```
 
-An additional terminal state, `removed_error`, is used only when a vehicle unexpectedly disappears or is removed from the simulation.
-A formal experiment run is invalid if:
+Unexpectedly lost or removed vehicles enter the terminal state `removed_error` and fail formal-run quality control.
 
-另外定義一個終止狀態 `removed_error`，僅用於記錄車輛在模擬中非預期消失或被移除的情況。
-若正式實驗中出現下列情況，該次實驗應判定為無效：
+車輛若發生非預期消失或移除，必須進入異常終止狀態 `removed_error`，並使正式 run 的品質檢查失敗。
 
-```text
-removed_error > 0
-```
+## State definitions / 狀態定義
 
----
+**`outside`:** the scheduled demand-arrival event has occurred, but SUMO has not yet inserted the vehicle. Future events are not counted.（車輛的預定需求到達事件已發生，但 SUMO 尚未插入車輛；未來尚未到達的事件不計入）
 
-## State Definitions / 狀態定義
+**`entry_queue`:** the vehicle is in the modeled entrance region but has not started active parking search.（車輛已位於模擬入口區，但尚未開始主動搜尋車位）
 
-### `outside`
+**`cruising`:** the vehicle is in the active parking-search state. In M1B/M1C smoke tests, this state was used for lifecycle integration with a fixed parking target, **not** a completed free-search model.（車輛處於主動搜尋的狀態；但 M1B/M1C 的 smoke test 使用固定停車目標驗證狀態轉換，**不是**已完成的自由搜尋模型）
 
-The demand-arrival event has occurred, but the vehicle has not yet been successfully inserted into the SUMO network.
-Future scheduled vehicles are not counted as `outside` before their arrival time.
+**`parked`:** the vehicle is occupying a parking space.（車輛正在占用停車位）
 
-車輛的需求到達事件已經發生，但尚未成功插入 SUMO 路網。
-尚未到達預定時間的未來車輛，不計入 `outside`。
+**`departing`:** the parking stay has ended and the vehicle is heading toward the system exit.（停車時間結束，車輛正駛往系統出口）
 
-### `entry_queue`
+**`completed`:** the vehicle exited normally and its lifecycle ended.（車輛正常離開系統，生命週期結束）
 
-The vehicle has entered the modeled system and is waiting or moving through the entrance region before active parking search begins.
+**`removed_error`:** an abnormal terminal state that preserves accounting but invalidates a formal run.（用於維持帳務一致性的異常終止狀態；正式 run 出現此狀態即為無效）
 
-車輛已進入模擬系統，正在入口區域等待或前進，但尚未正式開始搜尋停車位。
+## Allowed transitions and validation / 合法轉移與驗證
 
-### `cruising`
+Only consecutive transitions in the normal sequence are allowed. Illegal jumps (for example `outside -> parked`, `cruising -> completed`) and transitions out of terminal states must raise `LifecycleError`.
 
-The vehicle is actively searching for a legally accessible parking space.
+Vehicle IDs must be unique; transition timestamps must never go backwards.
 
-車輛正在主動搜尋其依法可使用的停車位。
+僅允許按照正常順序逐步轉移。非法跳躍（例如 `outside -> parked`、`cruising -> completed`）或從終止狀態離開，都必須觸發 `LifecycleError`。
 
-### `parked`
+每台車的 ID 必須唯一，狀態轉換的時間戳記不得倒退。
 
-The vehicle is currently occupying a parking space.
+## Mass balance / 質量平衡
 
-車輛目前正在停車位內停放。
-
-### `departing`
-
-The parking duration has ended and the vehicle is driving toward the system exit.
-
-停車時間已結束，車輛正在駛向系統出口。
-
-### `completed`
-
-The vehicle has normally exited the modeled system.
-
-車輛已正常離開模擬系統。
-
-### `removed_error`
-
-The vehicle disappeared or was unexpectedly removed before normal completion.
-This state preserves accounting consistency but causes formal-run quality control to fail.
-
-車輛在正常完成生命週期之前，非預期地消失或被移除。
-此狀態的目的在於維持帳目一致性，但正式實驗的品質檢查必須判定為失敗。
-
----
-
-## Allowed Transitions / 合法狀態轉移
-
-The normal lifecycle permits only the following transitions:
+At every recorded simulation epoch（每個記錄的模擬控制時刻均須滿足）:
 
 ```text
-outside
-→ entry_queue
-→ cruising
-→ parked
-→ departing
-→ completed
-```
-
-Illegal transitions（不合法狀態轉移） such as:
-
-```text
-outside → parked
-cruising → completed
-completed → cruising
-```
-
-must raise a `LifecycleError`（必須觸發，不得由程式自動修正或忽略）.
-
----
-
-## Mass Balance / 質量平衡
-
-At every simulation step, the following identity must hold（必須滿足下列質量平衡）:
-
-```text
-N_generated_to_date
-=
-N_outside
-+ N_entry_queue
-+ N_cruising
-+ N_parked
-+ N_departing
-+ N_completed
-+ N_removed_error
-```
-
-Therefore:
-
-```text
+N_generated_to_date = N_outside + N_entry_queue + N_cruising
+                    + N_parked + N_departing + N_completed + N_removed_error
 mass_balance_error = 0
 ```
 
-must hold throughout the entire simulation.
+`N_generated_to_date` includes only events that have actually arrived according to the demand model, not all vehicles scheduled for the future.
 
-必須在整段模擬期間始終成立。
+A correct accounting identity can coexist with `removed_error>0`; therefore formal quality control must enforce `N_removed_error=0` separately.
 
-For formal experiment runs（正式實驗另外要求）, an additional quality-control condition is required:
+`N_generated_to_date` 僅包含依需求模型已經到達的事件，不包含未來才預定出現的車輛。
 
-```text
-N_removed_error = 0
-```
+質量平衡數學式即使正確，也可能仍有 `removed_error>0`；因此正式品質檢查必須**另外**要求 `N_removed_error=0`。
 
----
+## Unit-test coverage / 單元測試範圍
 
-## Definition of Generated Demand / 已產生需求的定義
+The seven tests cover:
 
-`N_generated_to_date` counts only vehicles whose demand-arrival event has already occurred（僅計算「需求到達事件已經發生」的車輛）.
-
-For example, if a vehicle is scheduled to arrive at:
-
-```text
-t = 100 s
-```
-
-then at:
-
-```text
-t = 50 s
-```
-
-the vehicle is not yet included in the lifecycle ledger（該車輛尚未納入生命週期帳本）.
-
-At（當時間到達）:
-
-```text
-t = 100 s
-```
-
-the vehicle is registered as:
-
-```text
-outside
-```
-
-If insertion into SUMO succeeds, it may then transition to:
-
-```text
-entry_queue
-```
-
----
-
-## Quality-Control Principle / 品質控制原則
-
-The simulator must never silently lose a vehicle. If a vehicle unexpectedly disappears from SUMO, it must be explicitly recorded as:
-
-模擬器不得在沒有紀錄的情況下讓車輛憑空消失。若 SUMO 中的車輛非預期消失，必須明確記錄為：
-
-```text
-removed_error
-```
-
-The mass balance may still remain mathematically valid, but the corresponding formal simulation run must be rejected.
-
-即使此時質量平衡在數學上仍然成立，該次正式實驗仍必須被判定為無效。
-
----
-
-## Unit Tests / 單元測試
-
-The current unit tests verify:
-
-1. Normal complete vehicle lifecycle.（正常完整生命週期）
-
+1. Complete normal lifecycle.（正常完整生命週期）
 2. Rejection of illegal state transitions.（拒絕非法狀態轉移）
+3. Rejection of duplicate vehicle IDs.（拒絕重複車輛 ID）
+4. Rejection of non-monotonic timestamps.（拒絕時間倒退）
+5. Terminal `completed` state.（`completed` 為不可再次轉移的終止狀態）
+6. Accounting and formal QC for `removed_error`.（`removed_error` 的帳務處理與正式品質檢查）
+7. Multi-vehicle mixed-state mass balance.（多車輛混合狀態下的質量平衡）
 
-3. Rejection of duplicate vehicle IDs.（拒絕重複的車輛 ID）
+Run from the Experiment 1 directory（從 Experiment 1 目錄執行）:
 
-4. Rejection of non-monotonic transition times.（拒絕時間倒退的狀態轉移）
-
-5. Confirmation that `completed` is a terminal state.（確認 `completed` 為終止狀態）
-
-6. Confirmation that `removed_error` preserves mass balance but fails formal-run quality control.（確認 `removed_error` 可維持質量平衡，但正式實驗品質檢查必須失敗）
-
-7. Mass-balance verification for multiple vehicles in different states.（驗證多車處於不同狀態時的質量平衡）
-
-Run the tests using:
-
-```bash
-python tests/test_vehicle_state.py
+```cmd
+python tests\test_vehicle_state.py
 ```
 
-The expected result is:
+The recorded outcome is **7/7 PASS**.
 
-```text
-Ran 7 tests
+已記錄結果為 **7/7 PASS**。
 
-OK
-```
+## Boundaries and follow-up / 範圍與後續階段
 
----
+M1B validates accounting rules, not stochastic demand or behavior. M1B-2 later proved a three-vehicle SUMO lifecycle, and M1C later connected the demand and parking-duration samplers. Continuous free search and instability detection remain future milestones.
 
-## Current Scope / 本階段範圍
+See [`Milestone_1B2_README.md`](Milestone_1B2_README.md) and [`Milestone_1C3_README.md`](Milestone_1C3_README.md) for the integration checks.
 
-Milestone 1B validates the vehicle lifecycle and accounting logic independently of SUMO demand generation.
-The following components are introduced only after this milestone passes:
+M1B 驗證帳務規則，不驗證隨機需求或駕駛行為。後續 M1B-2 已完成三車 SUMO 生命週期；M1C 已串接需求與停車時間生成器。持續式自由搜尋與失穩偵測仍屬後續里程碑。
 
-Milestone 1B 目前只驗證車輛生命週期與帳務邏輯，不處理 SUMO 動態需求生成。
-以下功能將在本階段通過後才加入：
-
-```text
-dynamic arrivals 動態車輛到達
-parking-duration sampling 停車時間抽樣
-SUMO vehicle insertion SUMO 車輛插入
-continuous free search 持續式自由搜尋
-gridlock detection 壅塞／失穩偵測
-```
-
----
-
-## Milestone 1B Pass Criteria / Milestone 1B 通過條件
-
-Milestone 1B passes only when（僅在以下條件全部成立時通過）:
-
-```text
-All lifecycle unit tests pass. 所有生命週期單元測試皆通過。
-Mass balance is always preserved. 質量平衡始終成立。
-Illegal state transitions are rejected. 非法狀態轉移會被拒絕。
-Duplicate vehicle IDs are rejected. 重複 vehicle ID 會被拒絕。
-Transition timestamps are monotonic. 狀態轉移時間不可倒退。
-Formal-run QC rejects removed_error > 0. removed_error > 0 時正式實驗 QC 必須失敗。
-```
+整合驗證請參考 [`Milestone_1B2_README.md`](Milestone_1B2_README.md) 與 [`Milestone_1C3_README.md`](Milestone_1C3_README.md)。

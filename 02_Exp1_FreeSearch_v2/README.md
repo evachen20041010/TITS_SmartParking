@@ -1,374 +1,208 @@
-# T-ITS Experiment 1 — Free-Search Instability and Critical-Load Characterization / 自由搜尋失穩與臨界負載特性分析
+# Experiment 1 v2 - Free-Search Instability and Critical-Load Characterization / 自由搜尋失穩與臨界負載特性分析
 
-This directory contains the simulation framework for Experiment 1 of the IEEE Transactions on Intelligent Transportation Systems (T-ITS) research project.
-The purpose of Experiment 1 is to determine whether decentralized bounded-rational parking search exhibits a reproducible transition from stable operation to congestion and gridlock as offered parking load increases.
+## Purpose and scope / 目的與範圍
 
-本目錄包含 IEEE Transactions on Intelligent Transportation Systems（T-ITS）研究計畫之 Experiment 1 模擬框架。
-Experiment 1 的目的，是確認在沒有中央控制器介入的情況下，去中心化且具有限理性的停車搜尋行為，是否會隨 offered parking load 增加，出現可重現的穩定、轉換與失穩／壅塞狀態。
+Experiment 1 is the go/no-go study for the T-ITS research program. It tests whether decentralized, bounded-rational parking search exhibits a reproducible transition from stable operation to a search-induced unstable regime as offered parking load increases. **No proposed controller is part of Experiment 1.**
 
----
+The authoritative specification is [`../03_docs/20260920_IEEE_Trans_ITS_Experiment1_v2_SOP.pdf`](../03_docs/20260920_IEEE_Trans_ITS_Experiment1_v2_SOP.pdf). This README describes what has actually been built and validated, alongside the work that remains.
 
-## Research Questions / 研究問題
+Experiment 1 是 T-ITS 研究計畫的 go/no-go 實驗，目標是檢驗去中心化、有限理性的停車搜尋行為，是否會隨 offered parking load 增加，從穩定運作轉變為可重現的搜尋誘發失穩狀態。**Experiment 1 不包含 proposed controller。**
 
-Experiment 1 addresses three primary questions:
+正式方法依據為 [`../03_docs/20260920_IEEE_Trans_ITS_Experiment1_v2_SOP.pdf`](../03_docs/20260920_IEEE_Trans_ITS_Experiment1_v2_SOP.pdf)。本 README 同時說明目前**實際完成的程式與驗證**，以及尚待執行的研究工作。
 
-1. Does decentralized bounded-rational free search exhibit a reproducible instability transition as offered parking load increases?（去中心化的 bounded-rational free search 是否會隨 offered parking load 增加而出現可重現的失穩轉換）
+## Scientific questions / 研究問題
 
-2. At what offered load does the probability of persistent congestion or gridlock become substantial?(offered load 增加到什麼程度時，持續性壅塞或 gridlock 的發生機率會明顯增加？)
+The study asks whether instability is reproducible, at what offered load search-induced gridlock becomes probable within a fixed measurement horizon, which microscopic precursors appear first, and whether these observations can be distinguished from capacity exhaustion or exogenous overload.
 
-3. Which microscopic variables precede the transition, such as circulating vehicles, entrance queue, cruising-time tail, speed degradation, or zone imbalance?(哪些 microscopic variables 會在失穩之前出現明顯變化，例如巡航空車數、入口排隊、cruising-time tail、速度下降或區域不平衡？)
+The primary event is **C1: search-induced gridlock**. **C2: capacity-induced blockage** is analyzed separately. The primary critical-load quantity is `rho_50(T_m)`, with `T_m = 120 min` in the main analysis and `60/240 min` horizon sensitivity.
 
-The simulator must reproduce the phenomenon faithfully rather than being tuned to create an artificial phase transition.
+A simulator run that stops at a time limit or runs out of eligible spaces is **not** automatically a C1 event. The C1 detector, threshold sensitivity, and censored-search analysis have **not yet been implemented**.
 
-模擬器的目的在於忠實觀察系統現象，而不是為了產生理想化的 phase transition 而調整模型。
+本研究關注：失穩是否可重現、固定觀測時間內搜尋誘發 gridlock 在何種需求負載下變得顯著、哪些微觀前兆最先出現，以及如何區分真正的搜尋失穩、合法車位耗盡與外生需求過載。
 
----
+主要事件為 **C1：search-induced gridlock（搜尋誘發失穩）**；**C2：capacity-induced blockage（容量不足造成的阻塞）** 必須另行分析。主要臨界負載指標為 `rho_50(T_m)`；主分析使用 `T_m = 120 min`，另做 `60/240 min` 觀測時間敏感度分析。
 
-## Relationship to the ICCE-TW Baseline / 與 ICCE-TW 基準實驗的關係
+模擬因時間上限結束，或合法空位已耗盡，**不能**自動視為 C1。C1 偵測器、門檻敏感度及搜尋時間設限分析**目前尚未實作**。
 
-The historical ICCE-TW 2026 simulator and outputs are preserved separately under（模擬器與輸出已獨立封存於）:
+## Historical baseline boundary / 歷史基準與開發邊界
+
+The original ICCE-TW 2026 experiment was reproduced exactly for **40/40 runs** and remains frozen under [`../01_ICCE_2026_Frozen/`](../01_ICCE_2026_Frozen/README_ICCE.md). Experiment 1 retains the canonical physical geometry but does **not** modify or directly inherit the old controller.
+
+The historical `Free_95` archive has **8/10 truncated runs**, not 7/10. This observed truncation is not sufficient evidence of search-induced gridlock; the discrepancy with the earlier manuscript wording is documented in the frozen baseline README.
+
+原始 ICCE-TW 2026 實驗已完成 **40/40 runs 精確重現**，並凍結於 [`../01_ICCE_2026_Frozen/`](../01_ICCE_2026_Frozen/README_ICCE.md)。Experiment 1 保留 canonical 物理路網，但**不修改、不直接沿用**早期控制器。
+
+歷史 `Free_95` 封存輸出有 **8/10 次截斷**，不是 7/10。這種截斷不足以單獨證明搜尋誘發 gridlock；與早期稿件文字的差異已記錄在凍結基準 README 中。
+
+## Canonical network and legal capacity / 標準路網與合法容量
+
+The canonical network is under [`network/canonical/`](network/canonical/README.md), with three non-internal edges, three parking zones, and seven SUMO parking areas.
+
+標準路網位於 [`network/canonical/`](network/canonical/README.md)，包含三條非內部道路邊、三個停車分區與七個 SUMO 停車區域。
+
+| Space type / 車位類別 | Capacity / 車位數 |
+| --- | ---: |
+| General / 一般 | 170 |
+| Family / 親子 | 20 |
+| Disabled / 身障 | 10 |
+| **Total / 總計** | **200** |
+
+Experiment 1-Core studies **general vehicles only** under strict legal access. General drivers may use general spaces only, giving `C_eff=170` rather than the physical total `C_total=200`.
+
+Experiment 1-Core **僅研究一般車輛**，並遵守嚴格合法車位限制。一般駕駛只能使用一般車位，因此有效容量為 `C_eff=170`，不是物理總容量 `C_total=200`。
+
+## Demand and duration models / 到達需求與停車時間模型
+
+The homogeneous Poisson arrival process and the positive lognormal parking-duration sampler have both passed standalone unit tests. The offered-load definition is:
+
+Homogeneous Poisson 到達過程與正值 lognormal 停車時間生成器都已通過獨立單元測試。需求負載定義為：
 
 ```text
-01_ICCE_2026_Frozen/
+rho    = lambda * E[T_park] / C_eff
+lambda = rho * C_eff / E[T_park]
+C_eff  = 170 (general-only Experiment 1-Core)
 ```
 
-The ICCE baseline was reproduced before development of this Experiment 1 simulator.
-The complete historical experiment contains four scenarios and ten seeds per scenario, for a total of 40 runs. The archived core results were reproduced exactly.
-The T-ITS Experiment 1 simulator does not extend the old ICCE controller directly. It inherits the canonical parking-lot geometry but rebuilds demand generation, vehicle lifecycle accounting, free-search behavior, logging, and instability detection independently.
+`rho` is **offered parking load**, not measured instantaneous occupancy. The demand generator preserves continuous-valued arrival times; the 1C-3 integration maps each scheduled arrival to the first subsequent discrete control epoch.
 
-在建立 Experiment 1 simulator 之前，已完成 ICCE baseline 重現。
-完整歷史實驗包含四個情境，每個情境使用十個 random seeds，共 40 runs；核心 archived results 已可精確重現。
-T-ITS Experiment 1 不直接修改或延伸舊 ICCE controller。僅沿用 canonical parking-lot geometry；需求生成、車輛生命週期、自由搜尋行為、logging 與失穩偵測均重新獨立建構。
+The formal parking-duration mean, coefficient of variation, data source, truncation policy, and driver-behavior distributions are **not frozen**. Unit-test values such as `1800 s / CV=0.5` and smoke values `20 s / CV=0.25` must not be used as unreviewed paper parameters.
 
----
+`rho` 是**停車需求負載**，不是實測瞬間占用率。需求生成器保留連續到達時間；1C-3 整合測試再把每筆預定到達映射到第一個符合條件的離散控制時刻。
 
-## Canonical Network / 標準道路網路
+正式停車時間平均值、變異係數、資料來源、截尾政策與駕駛行為分布都**尚未凍結**。單元測試中的 `1800 s / CV=0.5`，以及煙霧測試中的 `20 s / CV=0.25`，不得在未審查下直接當成論文實驗參數。
 
-The canonical network is located at:
+## Vehicle lifecycle / 車輛生命週期
+
+Every released demand event is tracked by `VehicleLedger`, with exactly one primary state per vehicle and a separate terminal error state:
+
+每筆已釋放的需求事件由 `VehicleLedger` 追蹤，每台車任何時刻只有一個主要狀態，並有獨立的異常終止狀態：
 
 ```text
-network/canonical/
+outside -> entry_queue -> cruising -> parked -> departing -> completed
+removed_error (unexpected termination / 非預期終止)
 ```
 
-The initial network（初始網路） contains:
+Mass balance must hold at every recorded simulation epoch（每個記錄的模擬控制時刻都必須滿足）:
 
 ```text
-3 parking zones
-3 non-internal road edges
-200 total parking spaces
-```
-
-Parking-space capacities are（停車位）:
-
-```text
-General (G)   : 170
-Family (F)    : 20
-Disabled (D)  : 10
-Total         : 200
-```
-
-Experiment 1-Core studies general vehicles only under strict legal parking constraints. Therefore, the effective parking capacity is:
-
-Experiment 1-Core 第一階段僅研究一般車輛，並採嚴格合法車位限制。因此有效停車容量定義為：
-
-```text
-C_eff = 170
-```
-
-The total capacity of 200 must not be used as the denominator for the general-vehicle-only core experiment.
-
-在 general-vehicle-only 核心實驗中，不得直接使用總容量 200 作為 offered-load denominator。
-
----
-
-## Offered Parking Load / 停車需求負載
-
-Experiment 1 uses offered parking load rather than fixed occupancy as the experimental control variable. The load is defined as:
-
-Experiment 1 使用 offered parking load，而不是固定 occupancy，作為主要實驗控制變數。負載定義為：
-
-```text
-rho = lambda * E[T_park] / C_eff
-```
-
-where:
-
-```text
-rho        = offered parking load
-lambda     = vehicle arrival rate
-E[T_park]  = expected parking duration
-C_eff      = effective legal parking capacity
-```
-
-For the initial general-only core experiment:
-
-```text
-C_eff = 170
-```
-
-Actual occupancy is generated endogenously by the simulator and is not forced to equal `rho`.
-The intended causal chain is:
-
-實際 occupancy 由 simulator 內生產生，不會被強制設定成與 `rho` 相同。
-預期的因果鏈為：
-
-```text
-demand
-→ occupancy
-→ parking search
-→ circulation
-→ congestion
-→ spillback / gridlock
-```
-
----
-
-## Vehicle Lifecycle / 車輛生命週期
-
-Every released vehicle must belong to exactly one lifecycle state:
-
-每一台已產生需求事件的車輛，在任何時間只能屬於一個生命週期狀態：
-
-```text
-outside
-→ entry_queue
-→ cruising
-→ parked
-→ departing
-→ completed
-```
-
-An additional terminal state is used for abnormal accounting:
-
-另外定義一個異常終止狀態：
-
-```text
-removed_error
-```
-
-`removed_error` preserves mass balance when a vehicle unexpectedly disappears, but any formal experiment containing such a vehicle is invalid. At every simulation step:
-
-`removed_error` 用來在車輛非預期消失時維持質量平衡；但任何包含此狀態的正式實驗都必須判定為無效。每一個 simulation step 都必須滿足：
-
-```text
-N_generated_to_date
-=
-N_outside
-+ N_entry_queue
-+ N_cruising
-+ N_parked
-+ N_departing
-+ N_completed
-+ N_removed_error
-```
-
-Therefore:
-
-```text
+N_generated_to_date = N_outside + N_entry_queue + N_cruising
+                    + N_parked + N_departing + N_completed + N_removed_error
 mass_balance_error = 0
 ```
 
-must hold throughout the run（必須在整個 simulation run 中始終成立）.
+An unexpected disappearance is recorded as `removed_error` to preserve accounting, but **any formal run with `removed_error > 0` is invalid**.
 
----
+車輛非預期消失時必須記錄為 `removed_error` 以維持帳務一致，但**任何正式 run 只要 `removed_error > 0` 即屬無效**。
 
-## Current Milestone Status / 目前里程碑進度
+## Validated milestones as of 2026-10-15 / 截至 2026-10-15 的驗證進度
 
-### Milestone 0 — Historical ICCE Recovery / ICCE 歷史基準復原
+The status below comes from the source tree, unit tests, and archived validation summaries. A PASS applies only to the stated test scope.
 
-```text
-[PASS] Original ICCE archive recovered
-[PASS] Python/SUMO environment reproduced
-[PASS] Single-seed reproduction
-[PASS] Free_95 ten-seed reproduction
-[PASS] Complete 40-run reproduction
-[PASS] Archived Table-I reconstruction
-```
+下列結果以原始程式、單元測試與封存的驗證摘要為依據；PASS 只適用於其明確測試範圍。
 
-### Milestone 1A — Canonical Network / 標準網路
+| Milestone / 里程碑 | Status / 狀態 | Evidence / 依據 |
+| --- | --- | --- |
+| M0 historical reproduction / 歷史重現 | **PASS** | 40/40 archived runs |
+| M1A canonical network / 標準路網 | **PASS** | 7 parking areas, `C_eff=170`, network validation |
+| M1B lifecycle / 生命週期 | **PASS** | 7/7 unit tests; 3/3 SUMO lifecycle smoke |
+| M1C-1 Poisson arrivals / 動態到達 | **PASS** | 8/8 unit tests |
+| M1C-2 Parking durations / 停車時間 | **PASS** | 8/8 unit tests |
+| M1C-3 dynamic integration / 動態整合 | **PASS** | 7/7 completed; zero mass-balance error |
+| M1D continuous free search / 持續自由搜尋 | **PENDING** | Not yet implemented / 尚未實作 |
+| M1E instability detector / 失穩偵測 | **PENDING** | C1/C2 not yet implemented / C1/C2 尚未實作 |
+| Formal Stage A/B/C sweeps / 正式負載掃描 | **PENDING** | Requires model validation and parameter freeze / 待完成模型驗證與參數凍結 |
 
-```text
-[PASS] Canonical network created
-[PASS] Parking-area inventory validated
-[PASS] C_total = 200
-[PASS] C_eff = 170 for general vehicles
-[PASS] SUMO base configuration loads successfully
-```
+The 1C-3 smoke run released and completed **7/7 vehicles**, with `removed_error=0`, maximum absolute mass-balance error `0`, and maximum scheduled-release delay `0.9312152104140328 s`. The `outside` and `entry_queue` visibility checks also passed.
 
-### Milestone 1B — Vehicle Lifecycle and Mass Balance / 車輛生命週期與質量平衡
+**Important:** M1C-3 uses the **fixed** legal parking area `PA_Z2_G`. It does **not** validate free-search choice, refusal/retry behavior, C1/C2 gridlock, or any critical load.
 
-```text
-[PASS] Vehicle lifecycle ledger implemented
-[PASS] 7/7 lifecycle unit tests
-[PASS] SUMO lifecycle integration
-[PASS] 3/3 smoke-test vehicles completed
-[PASS] removed_error = 0
-[PASS] mass_balance_error = 0 for all recorded steps
-```
+1C-3 的 smoke run 共釋放並完成 **7/7 台車**，`removed_error=0`、最大質量平衡絕對誤差為 `0`、最大預定到達至釋放延遲為 `0.9312152104140328 秒`。`outside` 與 `entry_queue` 狀態可觀測性檢查也已通過。
 
-### Milestone 1C — Dynamic Demand / 動態需求
+**重要：** M1C-3 指定**固定**合法停車區 `PA_Z2_G`，**尚未**驗證自由搜尋選擇、拒絕／重試行為、C1/C2 gridlock 或任何臨界負載。
 
-```text
-[ ] Poisson arrival generator
-[ ] Arrival reproducibility tests
-[ ] Parking-duration generator
-[ ] Dynamic-demand SUMO smoke test
-```
-
-### Milestone 1D — Continuous Free Search / 持續式自由搜尋
-
-```text
-[ ] Driver preference generation
-[ ] Zone-choice model
-[ ] Acceptance / rejection behavior
-[ ] Continued search after unsuccessful parking attempt
-```
-
-### Milestone 1E — Instability Detection / 失穩偵測
-
-```text
-[ ] Entrance spillback detector
-[ ] Severe internal congestion detector
-[ ] Gridlock detector
-[ ] Threshold sensitivity tests
-```
-
----
-
-## Repository Structure / 專案結構
+## Source structure / 程式與資料結構
 
 ```text
 02_Exp1_FreeSearch_v2/
-│
 ├─ README.md
-│
-├─ config/
-│
-├─ network/
-│  └─ canonical/
-│     ├─ parking_lot.net.xml
-│     ├─ parking_areas.add.xml
-│     ├─ parking.edg.xml
-│     ├─ parking.nod.xml
-│     ├─ base.sumocfg
-│     └─ README.md
-│
-├─ demand/
-│
+├─ config/                         # formal configs to be frozen later
+├─ demand/                         # future demand scenario assets
+├─ network/canonical/              # fixed network + network README
 ├─ scripts/
 │  ├─ inspect_network.py
 │  ├─ vehicle_state.py
-│  └─ run_lifecycle_smoke.py
-│
+│  ├─ run_lifecycle_smoke.py
+│  ├─ demand_generator.py
+│  ├─ parking_duration.py
+│  └─ run_dynamic_demand_smoke.py
 ├─ tests/
-│  └─ test_vehicle_state.py
-│
+│  ├─ test_vehicle_state.py
+│  ├─ test_demand_generator.py
+│  └─ test_parking_duration.py
 ├─ validation/
-│  ├─ network_inventory.csv
 │  ├─ network_summary.json
+│  ├─ network_inventory.csv
 │  ├─ Milestone_1B_README.md
 │  ├─ Milestone_1B2_README.md
-│  └─ lifecycle_smoke/
-│     ├─ system_log.csv
-│     ├─ vehicle_events.csv
-│     └─ summary.json
-│
+│  ├─ Milestone_1C1_README.md
+│  ├─ Milestone_1C2_README.md
+│  ├─ Milestone_1C3_README.md
+│  ├─ lifecycle_smoke/
+│  └─ dynamic_demand_smoke/
 ├─ raw/
 ├─ processed/
 ├─ figures/
 └─ logs/
 ```
 
----
+The `config/`, `demand/`, and data-output directories are reserved for future research stages; their presence does not imply that corresponding formal scenarios or paper-ready data already exist.
 
-## Basic Validation Commands / 基本驗證指令
+`config/`、`demand/` 與資料輸出目錄是預留給後續研究階段使用；目錄存在不代表對應的正式情境或論文級資料已完成。
 
-Activate the validated environment（啟用已驗證環境）:
+## Validation commands (Windows CMD) / 驗證指令（Windows CMD）
 
-```bash
+From the Experiment 1 directory in the validated `sumo_py310` environment, run:
+
+於已驗證的 `sumo_py310` 環境中，切換至 Experiment 1 目錄後執行：
+
+```cmd
 conda activate sumo_py310
+cd /d C:\TITS_SmartParking\02_Exp1_FreeSearch_v2
+python scripts\inspect_network.py
+python -m unittest discover -s tests -p "test_*.py"
+python scripts\run_lifecycle_smoke.py
+python scripts\run_dynamic_demand_smoke.py --precheck
+python scripts\run_dynamic_demand_smoke.py
 ```
 
-Inspect the canonical network（檢查）:
+The repository currently discovers **23 tests** (7 lifecycle + 8 Poisson + 8 duration). Passing these tests is separate from a live SUMO smoke test, and neither substitutes for the future formal Experiment 1 batch.
 
-```bash
-python scripts/inspect_network.py
-```
+The M1C-3 smoke records are under [`validation/dynamic_demand_smoke/`](validation/dynamic_demand_smoke/), including `summary.json`, arrival schedule, parking durations, release audit, vehicle events, and system log.
 
-Expected result（預期結果）:
+本 repository 目前可找到 **23 項測試**（生命週期 7、Poisson 到達 8、停車時間 8）。通過單元測試不等於已通過真實 SUMO 煙霧測試；兩者也都不能取代未來正式 Experiment 1 批次實驗。
 
-```text
-C_total = 200
-C_eff   = 170
-Validation: PASS
-```
+M1C-3 的煙霧測試證據位於 [`validation/dynamic_demand_smoke/`](validation/dynamic_demand_smoke/)，包含 `summary.json`、到達排程、停車時間、釋放時間稽核、車輛事件與系統紀錄。
 
-Run lifecycle unit tests（執行生命週期單元測試）:
+## Next milestone: M1D / 下一里程碑：M1D
 
-```bash
-python tests/test_vehicle_state.py
-```
+Before implementation, define the bounded-rational driver information regime and the source/update rate of perceived zone scarcity `O_hat_iz`. Specify frozen distributions for driving-time, walking-distance, perceived-scarcity weights, and parking acceptance probability. Do **not** substitute global instantaneous vacancy knowledge without documenting that information assumption.
 
-Expected result（預期結果）:
+Then implement legal candidate-zone filtering, driver zone choice, local observation and parking acceptance, rejection/continued search, explicit loops, and deterministic RNG streams. Validate each mechanism with unit tests before integrating with SUMO.
 
-```text
-Ran 7 tests
-OK
-```
+The M1E detector and the SOP's formal load sweeps must wait until these behavior, instrumentation, and freeze conditions pass independent quality control.
 
-Run the SUMO lifecycle smoke test:
+實作前必須明確定義有限理性駕駛的資訊範圍，以及感知區域稀缺度 `O_hat_iz` 的來源與更新頻率；同時訂定行車時間、步行距離、感知稀缺度權重，以及停車接受機率的固定分布。**不得**在未說明資訊假設的情況下，直接讓駕駛使用即時全域空位資訊。
 
-```bash
-python scripts/run_lifecycle_smoke.py
-```
+再依序實作合法候選區域過濾、駕駛分區選擇、局部觀測及停車接受／拒絕、持續搜尋、迴圈紀錄與獨立可重現亂數流。各機制須先通過單元測試，再整合到 SUMO。
 
-Expected result（預期結果）:
+M1E 偵測器以及 SOP 規定的正式負載掃描，必須等候行為模型、資料紀錄與參數凍結完成獨立品質驗證後才能進行。
 
-```text
-Completed vehicles        : 3/3
-removed_error             : 0
-max |mass_balance_error|  : 0
-Milestone 1B-2 verdict    : PASS
-```
+## Formal-run safeguards / 正式實驗保護規則
 
----
+Formal runs must preserve SUMO teleport disabling, collision/route-failure logs, consistent geometry and behavior distributions, complete seeds and configuration manifests, legal eligible-space accounting, right-censoring information, and Git/SUMO/Python version identifiers. The SOP requires warm-up and step-length checks plus a Stage B sign-off before coarse sweeps.
 
-## Reproducibility Rules / 可重現性規則
+Do not tune the simulator or detector after seeing preliminary results merely to create a desirable instability transition. The SOP explicitly allows a negative or capacity-only result and a corresponding change of paper framing.
 
-Formal simulation runs must satisfy the following requirements（正式 simulation runs 必須遵守以下規則）:
+正式 run 須維持 SUMO teleport 關閉、碰撞與路線失敗記錄、固定路網與行為分布、完整種子與情境 manifest、合法空位帳務、右設限資訊，以及 Git/SUMO/Python 版本紀錄。SOP 要求在 coarse sweep 前完成 warm-up 與 step-length 檢查，以及 Stage B 正式簽核。
 
-* Automatic SUMO teleport must remain disabled.（SUMO automatic teleport 必須關閉）
-
-* Random seeds and scenario parameters must be recorded.（Random seeds 與 scenario parameters 必須完整記錄）
-
-* Silent vehicle removal is prohibited.（禁止未留下紀錄的車輛移除）
-
-* Vehicle-state mass balance must remain exact.（Vehicle-state mass balance 必須完全成立）
-
-* Raw logs, processed summaries, configuration files, and Git commit identifiers must be preserved.（Raw logs、processed summaries、configuration files 與 Git commit identifier 必須保存）
-
-* Formal runs must satisfy `removed_error = 0`.（正式實驗必須滿足 `removed_error = 0`）
-
----
-
-## Development Principle / 開發原則
-
-Each new mechanism is validated independently before it is included in formal experiments. The development sequence is:
-
-每一項新機制都必須先獨立驗證，通過後才能納入正式實驗。開發順序為：
-
-```text
-historical reproduction
-→ canonical network
-→ lifecycle accounting
-→ dynamic arrivals/departures
-→ continuous free search
-→ logging
-→ instability detection
-→ load sweep
-→ critical-load estimation
-```
-
-Formal load-sweep experiments must not begin until the simulator foundation and quality-control checks are complete.
-
-在 simulator foundation 與品質控制機制完成之前，不得開始正式 load-sweep 實驗。
+不得為了產生理想的失穩轉換，而在看到初步結果後任意調整模擬器或偵測門檻。SOP 明確允許觀察到無失穩或僅容量不足的結果，並依此調整論文研究定位。

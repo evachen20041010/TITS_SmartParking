@@ -1,35 +1,38 @@
-# Milestone 1C-3 — Dynamic-Demand SUMO Smoke Test / 動態需求 SUMO 煙霧測試
+# Milestone 1C-3 - Dynamic-Demand SUMO Integration Smoke Test / 動態需求 SUMO 整合煙霧測試
 
-This milestone connects the independently validated Poisson arrival generator, lognormal parking-duration generator, `VehicleLedger`, and real SUMO traffic simulation.
+## Objective and limits / 目的與限制
 
-本階段將已獨立驗證的 Poisson 車輛到達生成器、對數常態停車時間生成器、`VehicleLedger` 及真實 SUMO 交通模擬整合在一起。
+This milestone connects the independently unit-tested homogeneous Poisson arrivals, lognormal parking durations, `VehicleLedger`, and real SUMO/TraCI events.
 
-## Scope / 範圍
+**It is non-formal engineering validation.** The vehicles use fixed legal parking area `PA_Z2_G`. This test **does not implement or establish** bounded-rational continuous free search, C1 search-induced gridlock, C2 capacity-induced blockage, or critical offered load.
 
-**This is a smoke test, not a formal Experiment 1 result.** It uses a fixed legal parking target (`PA_Z2_G`) solely to isolate integration issues. It does **not** implement continuous free search.
-Smoke-only parameters: Poisson arrival rate 0.04 vehicles/s, demand window 0–120 s, lognormal parking duration mean 20 s and CV 0.25, and master seed 10.
-These numeric values are **NOT** frozen research parameters and must not be used for the `rho` sweep.
+本階段串接已通過單元測試的 homogeneous Poisson 到達、lognormal 停車時間、`VehicleLedger` 與真實 SUMO/TraCI 事件。
 
-**這是煙霧測試，不是 Experiment 1 正式實驗結果。** 此處固定指定合法停車區 `PA_Z2_G`，僅用來檢查模組整合，**尚未實作持續式自由搜尋**。
-僅供 smoke test 的參數：Poisson 到達率 0.04 輛/秒、到達時間 0–120 秒、停車時間對數常態分布平均 20 秒及 CV 0.25、master seed 10。
-上述數值**不是**正式研究凍結參數，不得直接用於 `rho` sweep。
+**這是非正式工程驗證。** 車輛使用固定合法停車區 `PA_Z2_G`。本測試**尚未實作，也不能證明**有限理性持續式自由搜尋、C1 搜尋誘發失穩、C2 容量不足阻塞或臨界需求負載。
 
-## Installation / 安裝位置
+## Smoke-only settings / 僅供煙霧測試的設定
 
-Place the script and documentation into the current repository:
+These values are fixtures for integration testing and must **not** be reused as formal research parameters:
+
+下列數值只用於整合測試，**不得**直接當作正式研究參數：
 
 ```text
-TITS_SmartParking/
-└─ 02_Exp1_FreeSearch_v2/
-   ├─ scripts/
-   │  └─ run_dynamic_demand_smoke.py
-   └─ validation/
-      └─ Milestone_1C3_README.md
+master_seed        = 10
+arrival_rate       = 0.04 vehicles/s
+demand_window      = [0, 120) s
+parking_mean       = 20 s
+parking_CV         = 0.25
+control_step       = 1.0 s
+fixed_parking_area = PA_Z2_G
 ```
 
-## Precheck / 執行前檢查
+The generator derives distinct arrival and parking-duration RNG seeds from the common master seed and records SHA-256 fingerprints for both realizations.
 
-From `sumo_py310` and the Experiment 1 folder:
+生成器由相同 master seed 衍生不同的 arrival 與 parking-duration RNG seeds，並為兩份抽樣結果記錄 SHA-256 指紋。
+
+## Running the precheck / 執行前置檢查
+
+In Windows CMD with the validated environment:
 
 ```cmd
 conda activate sumo_py310
@@ -37,13 +40,13 @@ cd /d C:\TITS_SmartParking\02_Exp1_FreeSearch_v2
 python scripts\run_dynamic_demand_smoke.py --precheck
 ```
 
-This checks that network inputs are present, `C_eff=170` is validated, `PA_Z2_G` is a legal general parking area, and both RNG streams produce reproducible schedules. It does not start SUMO or write result logs.
+Precheck validates input files, `C_eff=170`, the legal parking target, and the exogenous schedules. It does **not** launch SUMO, so a successful precheck is not an integration PASS.
 
-此步驟檢查網路檔案、已驗證的 `C_eff=170`、`PA_Z2_G` 一般合法車位，以及兩組獨立亂數流。這一步不啟動 SUMO，也不輸出正式執行紀錄。
+Precheck 檢查輸入檔案、`C_eff=170`、合法停車目標及外生抽樣排程；它**不會**啟動 SUMO，因此通過 precheck 不等於已完成整合驗證。
 
-## Smoke simulation / 煙霧模擬
+## Running SUMO / 執行 SUMO
 
-After precheck passes, run:
+After a successful precheck:
 
 ```cmd
 python scripts\run_dynamic_demand_smoke.py
@@ -51,15 +54,17 @@ python scripts\run_dynamic_demand_smoke.py
 
 For per-step console output, add `--verbose`.
 
-## Time and lifecycle semantics / 時間與生命週期語意
+如需在終端顯示每個 simulation step 的資訊，可加入 `--verbose`。
 
-For each continuous scheduled arrival time `a_i`, the simulator registers the vehicle at the first control epoch `r_i >= a_i`, then attempts SUMO insertion on a subsequent simulation step. The system snapshot at `r_i` already counts the vehicle as `outside`.
-At 1 s step length, the release delay must satisfy `0 <= r_i - a_i <= 1 s`. Every vehicle must remain in `outside` and `entry_queue` for at least one logged control epoch before transitioning onward.
-Normal states:
+## Arrival and state timing / 到達與狀態時間定義
 
-對每筆連續時間到達事件 `a_i`，模擬器在第一個滿足 `r_i >= a_i` 的控制時刻註冊車輛，後續 simulation step 才嘗試插入 SUMO。在 `r_i` 的系統快照中，車輛已被計入 `outside`。
-當 step length 為 1 秒，釋放延遲需滿足 `0 <= r_i - a_i <= 1 s`。每台車的 `outside` 與 `entry_queue` 都必須至少在一個記錄的控制時刻中可觀察到。
-正常狀態依序為：
+For a scheduled continuous-time arrival `a_i`, the simulator releases the demand event at the first control epoch `r_i >= a_i`. At a one-second control step, `0 <= r_i-a_i <= 1 s`; the released vehicle is visible as `outside` in that epoch's snapshot.
+
+A successfully inserted vehicle enters `entry_queue`, stays observable for at least one control epoch, and later becomes `cruising` after the entrance-region rule is satisfied. The full expected sequence is:
+
+對預定連續時間到達事件 `a_i`，模擬器在第一個滿足 `r_i >= a_i` 的控制時刻 `r_i` 釋放需求。採一秒控制步長時，`0 <= r_i-a_i <= 1 秒`；當下的系統快照即須將該車計入 `outside`。
+
+成功插入的車輛進入 `entry_queue`，至少在一個控制時刻可觀察，符合入口空間規則後才進入 `cruising`。完整預期狀態順序為：
 
 ```text
 outside -> entry_queue -> cruising -> parked -> departing -> completed
@@ -67,39 +72,51 @@ outside -> entry_queue -> cruising -> parked -> departing -> completed
 
 ## Pass criteria / 通過條件
 
-All scheduled arrivals must be released, all released vehicles must reach `completed`, there must be no unexplained removals, and mass balance must hold at every recorded epoch.
-The following must all be true:
+All generated events must be released; every vehicle must complete the full lifecycle; no vehicle may enter `removed_error`; mass balance must remain exact; release delays must respect the control step; both `outside` and `entry_queue` must be observable.
 
-所有預定到達事件都必須釋放，所有車輛必須到達 `completed`，不得發生非預期移除，且每個記錄時刻的質量平衡必須成立。
-以下條件必須全部成立：
+所有生成的事件都必須釋放；每台車都須完成完整生命週期；不得出現 `removed_error`；質量平衡須始終成立；釋放延遲須符合控制步長；`outside` 與 `entry_queue` 必須可觀察。
 
-- Released / Generated = N/N.（釋放數量與生成數量相等）
-- Completed / Generated = N/N.（所有車輛正常完成）
-- `removed_error = 0`.（沒有非預期移除）
-- `max |mass_balance_error| = 0`.（每個時刻的帳務差異為零）
-- Release-delay rule = PASS.（到達事件離散化符合規範）
-- `outside` and `entry_queue` visibility = PASS.（兩個狀態都至少可觀察一個控制時刻）
-- Every lifecycle sequence = PASS.（每台車的狀態順序正確）
+## Archived result / 已封存結果
 
-## Outputs / 輸出檔案
+The project-provided `validation/dynamic_demand_smoke/summary.json` reports **PASS** for the master-seed-10 smoke test:
 
-The script writes the following files under `validation/dynamic_demand_smoke/`:
+專案中的 `validation/dynamic_demand_smoke/summary.json` 記錄 master-seed-10 煙霧測試 **PASS**：
+
+| Metric / 指標 | Recorded value / 記錄值 |
+| --- | ---: |
+| Generated arrivals / 生成到達事件 | **7** |
+| Released arrivals / 釋放事件 | **7/7** |
+| Completed vehicles / 正常完成車輛 | **7/7** |
+| `removed_error` | **0** |
+| Maximum absolute mass-balance error / 最大帳務絕對誤差 | **0** |
+| Maximum release delay / 最大到達釋放延遲 | **0.9312152104140328 s** |
+| Release-delay rule / 釋放延遲規則 | **PASS** |
+| `outside` and `entry_queue` visibility / 狀態可觀測性 | **PASS** |
+| Lifecycle sequences / 生命週期順序 | **7/7 PASS** |
+| Final simulated time / 結束模擬時間 | **162 s** |
+
+The arrival schedule and parking-duration fingerprints are stored with the run so subsequent verification can identify the same exogenous realizations. This is **one smoke-test seed**, not a stochastic load-sweep result.
+
+本次使用的 arrival schedule 與 parking-duration 指紋已隨 run 保存，可供後續確認相同外生抽樣結果。這只是**單一煙霧測試 seed**，不是隨機負載掃描結果。
+
+## Validation artifacts / 驗證輸出檔案
 
 ```text
-arrival_schedule.csv
-parking_durations.csv
-demand_release_audit.csv
-vehicle_events.csv
-system_log.csv
-summary.json
+validation/dynamic_demand_smoke/
+├─ arrival_schedule.csv
+├─ parking_durations.csv
+├─ demand_release_audit.csv
+├─ vehicle_events.csv
+├─ system_log.csv
+└─ summary.json
 ```
 
-The two SHA-256 values in `summary.json` identify the exact arrival schedule and parking-duration draws. These output files may be committed as **non-formal validation evidence**.
+`demand_release_audit.csv` records continuous scheduled arrival times and their discrete release epochs; `system_log.csv` records per-epoch state counts and mass balance; `vehicle_events.csv` records lifecycle transitions.
 
-`summary.json` 中的兩組 SHA-256 分別對應精確的到達排程與停車時間抽樣。這些輸出可以作為**非正式的驗證證據**提交至 Git。
+`demand_release_audit.csv` 記錄連續預定到達時間與離散釋放控制時刻；`system_log.csv` 記錄各時刻狀態數與質量平衡；`vehicle_events.csv` 記錄生命週期轉移事件。
 
-## Important limitation / 重要限制
+## Relationship to next milestones / 與後續里程碑的關係
 
-Passing this smoke test confirms integration only. It does not establish the validity of the parking search behavioral model, entry spillback definition, critical load, or gridlock detector.
+M1C is complete within its engineering validation scope. M1D must implement and separately validate bounded-rational continuous free-search behavior; M1E must implement the SOP-defined C1/C2 detectors, eligible-vacancy checks, and related instrumentation before formal load sweeps.
 
-通過本 smoke test 僅代表模組整合運作正常，**不等於**已驗證停車搜尋行為模型、入口回堵定義、臨界負載或 gridlock detector。
+M1C 的工程整合驗證範圍已完成。M1D 必須另外實作並驗證有限理性持續式自由搜尋；M1E 必須依 SOP 實作 C1/C2 偵測器、合法空位檢查與相關資料紀錄，才能開始正式負載掃描。
