@@ -63,7 +63,7 @@ python scripts\parking_duration.py --arrival-csv validation\demand_generator\arr
 
 The generator writes one duration per vehicle and a manifest containing mean/CV, log-space parameters, stream seed, sample count, sample mean, and SHA-256 fingerprint.
 
-生成器為每台車輸出一筆停車時間，並在 manifest 中記錄平均值／CV、log-space 參數、亂數流 seed、樣本數、樣本平均值及 SHA-256 指紋。
+生成器為每台車輸出一筆停車時間，並在 manifest 中記錄平均值 / CV、log-space 參數、亂數流 seed、樣本數、樣本平均值及 SHA-256 指紋。
 
 ```text
 validation/parking_duration_generator/

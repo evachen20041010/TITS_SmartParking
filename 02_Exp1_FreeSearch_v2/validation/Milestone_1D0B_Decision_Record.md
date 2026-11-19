@@ -29,7 +29,7 @@ A validated loop alone is not sufficient to freeze the new network. Before the p
 
 先把**方案 B 當成非正式可行性候選**，絕不悄悄取代 canonical；方案 A 仍保留作原始幾何與單程參考。
 
-即使路網可繞行，也不能直接凍結為正式研究場域。需先檢查速度、單圈距離、入口／回程匯流、入口儲車空間、停車位可達性與 C1/C2 偵測規則，再經 SOP 變更簽核，並在新路網上重跑受影響的 M1A～M1C 驗證。
+即使路網可繞行，也不能直接凍結為正式研究場域。需先檢查速度、單圈距離、入口 / 回程匯流、入口儲車空間、停車位可達性與 C1/C2 偵測規則，再經 SOP 變更簽核，並在新路網上重跑受影響的 M1A～M1C 驗證。
 
 **No high-load runs, critical-load claims, or controller comparisons are authorized at M1D-0B.**
 **M1D-0B 不得執行正式高負載掃描、宣稱臨界負載，或進行控制器比較。**

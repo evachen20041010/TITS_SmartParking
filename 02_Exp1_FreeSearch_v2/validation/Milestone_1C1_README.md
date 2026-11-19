@@ -10,7 +10,7 @@ This module generates **continuous-time** arrival schedules for a homogeneous Po
 
 Inter-arrival times follow an exponential distribution with rate `lambda` (vehicles per second). Offered parking load follows the Experiment 1 SOP:
 
-到達間隔時間服從參數為 `lambda`（輛／秒）的 exponential distribution。停車需求負載依 Experiment 1 SOP 定義：
+到達間隔時間服從參數為 `lambda`（輛 / 秒）的 exponential distribution。停車需求負載依 Experiment 1 SOP 定義：
 
 ```text
 Delta_t ~ Exponential(lambda)
@@ -77,7 +77,7 @@ validation/demand_generator/
 
 The manifest stores input rate/load settings, window, seed, expected/observed counts, and SHA-256. It is reproducibility metadata, not evidence that real SUMO insertion succeeded.
 
-Manifest 記錄到達率／負載、時間區間、seed、預期／實際到達數與 SHA-256。這是可重現性資訊，不代表實際 SUMO 插入已成功。
+Manifest 記錄到達率 / 負載、時間區間、seed、預期 / 實際到達數與 SHA-256。這是可重現性資訊，不代表實際 SUMO 插入已成功。
 
 ## Verified unit tests / 已驗證單元測試
 

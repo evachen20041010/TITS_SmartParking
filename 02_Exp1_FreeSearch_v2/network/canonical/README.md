@@ -79,7 +79,7 @@ python scripts\inspect_network.py
 
 The script checks parking IDs, linked lanes, segment positions, zone/type capacities, and legal effective capacity. The archived result is PASS with 3 non-internal edges, 3 non-internal lanes, 7 parking areas, 200 total spaces, and 170 legally eligible general spaces. The evidence files are:
 
-程式檢查停車區 ID、對應車道、起迄位置、分區／類型容量與合法有效容量。封存驗證結果為 PASS：3 條非內部道路邊、3 條非內部車道、7 個停車區、200 個實體車位，以及一般車輛可合法使用的 170 個車位。驗證證據保存於：
+程式檢查停車區 ID、對應車道、起迄位置、分區 / 類型容量與合法有效容量。封存驗證結果為 PASS：3 條非內部道路邊、3 條非內部車道、7 個停車區、200 個實體車位，以及一般車輛可合法使用的 170 個車位。驗證證據保存於：
 
 ```text
 validation/network_inventory.csv

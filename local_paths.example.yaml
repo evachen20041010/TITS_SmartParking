@@ -15,7 +15,7 @@
 
 paths:
   # External/raw-data root. Keep null while all data remain in this repository.
-  # 外部／大型原始資料根目錄。若目前資料仍全部位於本 repository，可暫時設為 null。
+  # 外部 / 大型原始資料根目錄。若目前資料仍全部位於本 repository，可暫時設為 null。
   external_data_root: null
   # Example:
   # external_data_root: "D:/TITS_SmartParking_Data"

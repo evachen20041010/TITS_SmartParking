@@ -49,7 +49,7 @@ The original ICCE baseline calls `traci.parkingarea.getVehicleCount()` while ran
 
 `Static audit: PASS` 表示審查程式正常執行、結果與來源一致，**不代表持續式自由搜尋模擬器已準備完成**。現有路網無法重訪已經經過的停車區。
 
-ICCE 原始程式評分三個分區時會呼叫 `traci.parkingarea.getVehicleCount()`，因此使用了**跨區即時占用資訊**。不得在未經說明的情況下，將它重新描述成無資訊／僅局部觀察的搜尋模型。
+ICCE 原始程式評分三個分區時會呼叫 `traci.parkingarea.getVehicleCount()`，因此使用了**跨區即時占用資訊**。不得在未經說明的情況下，將它重新描述成無資訊 / 僅局部觀察的搜尋模型。
 
 ## Decision gate / 研究決策關卡
 
@@ -83,4 +83,4 @@ validation/m1d0/
 
 These artifacts record source SHA-256 values and the geometry/information checks. They are evidence for the *decision gate*, not simulation outcomes.
 
-以上檔案保留來源 SHA-256 與路網／資訊檢查紀錄；它們是**研究決策依據**，不是 SUMO 模擬結果。
+以上檔案保留來源 SHA-256 與路網 / 資訊檢查紀錄；它們是**研究決策依據**，不是 SUMO 模擬結果。
