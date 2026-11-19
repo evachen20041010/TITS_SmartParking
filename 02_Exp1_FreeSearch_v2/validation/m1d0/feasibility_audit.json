@@ -1,0 +1,131 @@
+{
+  "milestone": "1D-0",
+  "analysis_kind": "STATIC_ONLY_NO_SUMO_EXECUTION",
+  "static_audit_status": "PASS",
+  "m1d_continuous_search_readiness": "HOLD_NO_REVISIT_LOOP",
+  "network": {
+    "network_sha256": "7d25f80e5c6afa74d60955735dd53a4effb19397b0d0ed27dff4ffd818e05638",
+    "parking_sha256": "ab8bb45fde9bd547ad94a37c7c4dd0a14bcaffb80814a8d9b3d3e7003e9bed34",
+    "non_internal_edge_count": 3,
+    "non_internal_edges": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "directed_connections": [
+      {
+        "from_edge": "E1",
+        "to_edge": "E2"
+      },
+      {
+        "from_edge": "E2",
+        "to_edge": "E3"
+      }
+    ],
+    "edge_from_to_nodes": {
+      "E1": [
+        "J0",
+        "J1"
+      ],
+      "E2": [
+        "J1",
+        "J2"
+      ],
+      "E3": [
+        "J2",
+        "J3"
+      ]
+    },
+    "directed_cycle_edges": [],
+    "directed_cycle_exists": false,
+    "reachable_parking_areas_from_E1": [
+      "PA_Z1_G",
+      "PA_Z1_F",
+      "PA_Z1_D",
+      "PA_Z2_G",
+      "PA_Z2_F",
+      "PA_Z2_D",
+      "PA_Z3_G"
+    ],
+    "revisitable_parking_areas_from_E1": [],
+    "all_general_areas_revisitable": false,
+    "path_E1_to_E3_exists": true,
+    "general_capacity_from_XML": 170,
+    "total_capacity_from_XML": 200,
+    "parking_areas": [
+      {
+        "id": "PA_Z1_G",
+        "lane": "E1_0",
+        "edge": "E1",
+        "capacity": 40,
+        "revisitable_by_directed_cycle": false
+      },
+      {
+        "id": "PA_Z1_F",
+        "lane": "E1_0",
+        "edge": "E1",
+        "capacity": 10,
+        "revisitable_by_directed_cycle": false
+      },
+      {
+        "id": "PA_Z1_D",
+        "lane": "E1_0",
+        "edge": "E1",
+        "capacity": 5,
+        "revisitable_by_directed_cycle": false
+      },
+      {
+        "id": "PA_Z2_G",
+        "lane": "E2_0",
+        "edge": "E2",
+        "capacity": 50,
+        "revisitable_by_directed_cycle": false
+      },
+      {
+        "id": "PA_Z2_F",
+        "lane": "E2_0",
+        "edge": "E2",
+        "capacity": 10,
+        "revisitable_by_directed_cycle": false
+      },
+      {
+        "id": "PA_Z2_D",
+        "lane": "E2_0",
+        "edge": "E2",
+        "capacity": 5,
+        "revisitable_by_directed_cycle": false
+      },
+      {
+        "id": "PA_Z3_G",
+        "lane": "E3_0",
+        "edge": "E3",
+        "capacity": 80,
+        "revisitable_by_directed_cycle": false
+      }
+    ]
+  },
+  "original_ICCE_behavior": {
+    "baseline_file_sha256": "70df9d65c7dc38cdc0fb638ef8610f39827f3f58f12566f13a4a68b850466f49",
+    "zone_score_function_line": 35,
+    "free_search_function_line": 85,
+    "run_function_line": 118,
+    "zone_score_queries_live_parking_counts": true,
+    "parking_area_stop_called_in_free_search": true,
+    "top_two_zone_candidates": true,
+    "uses_acceptance_probability_draw": true,
+    "free_search_invoked_inside_run_for_loop_lines": [
+      122,
+      125,
+      152
+    ],
+    "note": "Evidence of live cross-zone counts and one-time decision at vehicle departure; this is NOT proof of an uninformed search or of continuous re-attempt/re-circulation."
+  },
+  "capacity_summary_consistent": true,
+  "source_files_not_modified": true,
+  "methodology_decision_required": [
+    "Retain SOP canonical geometry and explicitly limit model to one pass, or approve and version a revised network with a physically explicit return path.",
+    "Freeze the perceived-scarcity information rule. ICCE baseline reads current parking-area counts across zones and is information-assisted.",
+    "Define failure, rejection, reroute, route-end and censoring rules without marking unparked vehicles as completed parking searches."
+  ],
+  "sop_alignment": "SOP v2.0 s4.1 freezes canonical geometry; s4.2 freezes information source and forbids invented guidance; Appendix A requires parameter freeze before formal Stage B."
+}

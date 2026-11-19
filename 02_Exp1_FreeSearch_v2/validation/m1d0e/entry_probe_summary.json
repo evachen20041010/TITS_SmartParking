@@ -1,0 +1,56 @@
+{
+  "milestone": "1D-0E",
+  "candidate_id": "recirculation_v2_entry",
+  "technical_verdict": "PASS",
+  "source_type": "NON_FORMAL_FIXED_DECISION_PROBE",
+  "formal_experiment_approved": false,
+  "physical_event_A_calibrated": false,
+  "physical_entry_link": "E_IN_0",
+  "E_IN_length_compiled_m": 142.8,
+  "E_IN_length_nominal_m": 150.0,
+  "usable_entry_storage_length_m": null,
+  "both_approaches_observed": true,
+  "simultaneous_merge_conflict_validated": false,
+  "parked_route_indices": {
+    "early_park": 2,
+    "fresh_at_merge": 2,
+    "late_park": 8
+  },
+  "early_route_shortened": true,
+  "completed": 3,
+  "removed_error": 0,
+  "max_abs_mass_balance_error": 0,
+  "colliding_vehicle_ids": [],
+  "teleport_vehicle_ids": [],
+  "emergency_stop_vehicle_ids": [],
+  "observed_edges": {
+    "early_park": [
+      "E_IN",
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "late_park": [
+      "E_IN",
+      "E1",
+      "E2",
+      "E3",
+      "E_RU",
+      "E_RW",
+      "E_RD",
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "fresh_at_merge": [
+      "E_IN",
+      "E1",
+      "E2",
+      "E3"
+    ]
+  },
+  "raw_entrance_samples": 42,
+  "driver_search_policy": "NOT IMPLEMENTED",
+  "runtime_error": null,
+  "formal_study_status": "HOLD_SOP_AMENDMENT_REQUIRED"
+}

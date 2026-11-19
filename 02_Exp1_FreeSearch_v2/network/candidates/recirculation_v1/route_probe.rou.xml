@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<routes>
+    <vType id="probe_car" vClass="passenger" length="5.0" />
+    <route id="two_pass" edges="E1 E2 E3 E_RU E_RW E_RD E1 E2 E3" />
+    <vehicle id="probe_two_passes" type="probe_car" route="two_pass" depart="0" departSpeed="0" />
+</routes>

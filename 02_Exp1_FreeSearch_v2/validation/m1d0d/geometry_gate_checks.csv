@@ -1,0 +1,9 @@
+check,value
+static_integrity,PASS
+original_edges_preserved,True
+revisit_connections_present,True
+candidate_entrance_access_edge,
+physical_event_a_measurable,False
+entry_state_is_not_spillback_metric,True
+formal_study_gate,HOLD
+formal_batch_authorized,False

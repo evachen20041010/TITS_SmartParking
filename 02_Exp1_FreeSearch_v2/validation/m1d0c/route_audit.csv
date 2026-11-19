@@ -1,0 +1,18 @@
+time_s,vehicle_id,event,value
+1.0,early_park,enter_edge,E1
+2.0,early_park,parking_command,0
+9.0,late_park,enter_edge,E1
+19.0,early_park,enter_edge,E2
+21.0,early_park,parking_started,1
+28.0,late_park,enter_edge,E2
+33.0,early_park,exit_route_changed,E2 E3
+44.0,late_park,enter_edge,E3
+48.0,early_park,enter_edge,E3
+63.0,late_park,enter_edge,E_RU
+71.0,late_park,enter_edge,E_RW
+124.0,late_park,enter_edge,E_RD
+133.0,late_park,enter_edge,E1
+133.0,late_park,parking_command,6
+151.0,late_park,enter_edge,E2
+155.0,late_park,parking_started,7
+185.0,late_park,enter_edge,E3

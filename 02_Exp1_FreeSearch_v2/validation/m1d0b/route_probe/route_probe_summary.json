@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "formal_experiment": false,
+  "scope": "route connectivity and physical revisitation only",
+  "probe_vehicle": "probe_two_passes",
+  "arrived": true,
+  "observed_edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E_RU",
+    "E_RW",
+    "E_RD",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "expected_edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E_RU",
+    "E_RW",
+    "E_RD",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "same_three_parking_edges_visited_twice": true,
+  "final_time_s": 157.0,
+  "error": null,
+  "sop_amendment_required_before_formal_experiment": true
+}

@@ -1,0 +1,54 @@
+# M1D-0D RESEARCH DOCUMENT ONLY - NOT A FORMAL PARAMETER FREEZE.
+# M1D-0D 僅為研究規格草案，不代表正式參數凍結。
+
+version: M1D-0D-draft-1
+status: PROPOSED_NOT_APPROVED
+formal_stage_a_or_b_authorized: false
+
+reference_geometry:
+  identifier: canonical
+  path: network/canonical
+  purpose: ICCE-compatible one-pass reference
+
+engineering_candidate:
+  identifier: recirculation_v1
+  path: network/candidates/recirculation_v1
+  manifest: network/candidates/recirculation_v1/candidate_manifest.json
+  technical_route_probe: PASS_USER_REPORTED_2026_11_17
+  total_spaces: 200
+  legally_eligible_general_spaces: 170
+  original_road_length_m: 600
+  return_road_length_m: 720
+  loop_length_m: 1320
+  physical_access_link_present: false
+  formal_core_network: false
+
+entrance_queue_contract:
+  lifecycle_entry_queue_is_physical_spillback: false
+  off_network_pending_insertion_is_physical_spillback: false
+  proposed_new_access_edge: E_IN
+  proposed_access_lane: E_IN_0
+  usable_storage_length_m: null     # requires a newly versioned lane
+  entry_queue_length_measurement: downstream_connected_stopped_queue_m
+  spot_halting_speed_mps: 0.1       # SUMO TraCI standard for halting
+  leading_vehicle_boundary_tolerance_m: null
+  intervehicle_queue_gap_max_m: null
+  measurement_interval_s: null      # freeze after step-length pilot
+  event_A_queue_storage_fraction: 0.90
+  event_A_min_sustained_duration_s: 60
+  require_route_reentry_separate_from_new_demand: true
+  requires_controlled_traffic_validation: true
+
+exit_boundary:
+  model: route_end_at_E3
+  status: PROPOSED_AS_VIRTUAL_SINK
+  success_requires_parked_departing_completed_sequence: true
+  unparked_arrival_counted_as_service_success: false
+
+blocking_gates:
+  - approve_geometry_SOP_amendment
+  - create_and_validate_dedicated_physical_entry_candidate
+  - validate_contiguous_queue_measurement_and_storage_calibration
+  - freeze_driver_information_and_behavior
+  - verify_C1_C2_detector_before_formal_sweeps
+  - complete_parameter_freeze_and_supervisor_signoff

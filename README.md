@@ -4,7 +4,7 @@
 
 This repository supports a staged research program on near-saturation parking systems. Experiment 1 asks whether decentralized, bounded-rational parking search develops reproducible instability as **offered parking load** increases. A subsequent controller-comparison study is conditional on the Experiment 1 go/no-go findings.
 
-本專案以分階段方式研究接近飽和的停車系統。Experiment 1 要回答的是：隨著**停車需求負載（offered parking load）**增加，去中心化、有限理性的駕駛搜尋行為是否會產生可重現的失穩現象。後續控制策略比較研究，應依 Experiment 1 的 go/no-go 結果決定研究定位。
+本專案以分階段方式研究接近飽和的停車系統。Experiment 1 要回答的是：隨著 **停車需求負載（offered parking load）** 增加，去中心化、有限理性的駕駛搜尋行為是否會產生可重現的失穩現象。後續控制策略比較研究，應依 Experiment 1 的 go/no-go 結果決定研究定位。
 
 ## Source of methodological authority / 正式研究方法依據
 

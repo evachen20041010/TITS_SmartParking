@@ -1,0 +1,26 @@
+time_s,vehicle_id,event,value
+1.0,early_park,enter_edge,E_IN
+9.0,late_park,enter_edge,E_IN
+15.0,early_park,enter_edge,E1
+15.0,early_park,park_command,1
+24.0,late_park,enter_edge,E1
+29.0,early_park,enter_edge,E2
+33.0,early_park,parked,2
+40.0,late_park,enter_edge,E2
+45.0,early_park,exit_route_updated,E2 E3
+56.0,late_park,enter_edge,E3
+61.0,early_park,enter_edge,E3
+74.0,late_park,enter_edge,E_RU
+83.0,late_park,enter_edge,E_RW
+101.0,fresh_at_merge,enter_edge,E_IN
+116.0,fresh_at_merge,enter_edge,E1
+116.0,fresh_at_merge,park_command,1
+130.0,fresh_at_merge,enter_edge,E2
+136.0,fresh_at_merge,parked,2
+136.0,late_park,enter_edge,E_RD
+144.0,late_park,enter_edge,E1
+144.0,late_park,park_command,7
+161.0,late_park,enter_edge,E2
+164.0,fresh_at_merge,enter_edge,E3
+165.0,late_park,parked,8
+194.0,late_park,enter_edge,E3

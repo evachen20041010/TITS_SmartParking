@@ -1,0 +1,29 @@
+{
+  "milestone": "1D-0D",
+  "candidate_id": "recirculation_v1",
+  "static_integrity": "PASS",
+  "static_integrity_errors": [],
+  "original_edges_preserved": true,
+  "revisit_connections_present": true,
+  "parking_capacity": {
+    "general": 170,
+    "family": 20,
+    "disabled": 10
+  },
+  "candidate_entrance_access_edge": null,
+  "physical_event_a_measurable": false,
+  "separate_entrance_from_return_merge": false,
+  "exit_boundary_model": "E3 route-end virtual sink (1D-0C probe)",
+  "entry_state_is_not_spillback_metric": true,
+  "formal_study_gate": "HOLD",
+  "unmet_formal_requirements": [
+    "dedicated_physical_entrance_link",
+    "signed_geometry_sop_amendment",
+    "entrance_measurement_qc",
+    "free_search_behavior_frozen",
+    "c1_c2_detector_verified"
+  ],
+  "recommended_next_candidate": "recirculation_v2_entry (proposed, not created)",
+  "network_files_modified": false,
+  "formal_batch_authorized": false
+}

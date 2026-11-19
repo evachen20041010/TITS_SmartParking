@@ -1,0 +1,79 @@
+{
+  "candidate_id": "recirculation_v2_entry",
+  "generator_version": "m1d0e-1.1-length-qc",
+  "classification": "NON_FORMAL_ENGINEERING_CANDIDATE",
+  "derived_from": "recirculation_v1",
+  "sop_amendment_required": true,
+  "stage_b_approved": false,
+  "formal_experiment_approved": false,
+  "physical_event_A_validated": false,
+  "parent_candidate_net_sha256": "2653d88cf18c5f7e8587cdd937ed57c244c267f766e33252d46b2319dcd2cf11",
+  "canonical_sha256": {
+    "parking.nod.xml": "436c6df8794953646a09a81401f7cd37f908c448e5e9f334efa778656d01ee1d",
+    "parking.edg.xml": "821376bd9ebb27e8ce8f792de511511efa87702a3545f7ad6665e97e247d286c",
+    "parking_areas.add.xml": "ab8bb45fde9bd547ad94a37c7c4dd0a14bcaffb80814a8d9b3d3e7003e9bed34",
+    "base.sumocfg": "ceb46bcb0f37b01876301522656d088ae23cec41759feb520d0bb6524af938f3",
+    "parking_lot.net.xml": "7d25f80e5c6afa74d60955735dd53a4effb19397b0d0ed27dff4ffd818e05638"
+  },
+  "parent_source_sha256": {
+    "parking.nod.xml": "224acd94dc89f2ae0cc95eb8ebc251048f504fadc3ca46154b73704830ea1ee4",
+    "parking.edg.xml": "acf26ccc67e1136a24bb8db0e1bc009b93656b6d1190ef167cce95657ceafab8",
+    "parking_areas.add.xml": "ab8bb45fde9bd547ad94a37c7c4dd0a14bcaffb80814a8d9b3d3e7003e9bed34",
+    "base.sumocfg": "ceb46bcb0f37b01876301522656d088ae23cec41759feb520d0bb6524af938f3"
+  },
+  "candidate_sha256": {
+    "parking.nod.xml": "bf068222f6d2447b1ec1beb00ad6129a3befc96233acf983826c679816da383d",
+    "parking.edg.xml": "d368ca6177592eca21a4d1aea86eb30de663e6257d9423cd3b9fccd45c7550c1",
+    "parking_areas.add.xml": "ab8bb45fde9bd547ad94a37c7c4dd0a14bcaffb80814a8d9b3d3e7003e9bed34",
+    "base.sumocfg": "ceb46bcb0f37b01876301522656d088ae23cec41759feb520d0bb6524af938f3",
+    "route_probe.rou.xml": "6b6eccbe08bbaefa4b43f5f26546ed44949ff71a98b9596fbab91334df335799"
+  },
+  "candidate_net_sha256": "5fc216995c0aa7e95969fd0fa5a074116f5dd1933f6d8820404d5d1d2265c549",
+  "compiled_net_valid": true,
+  "compiled_stats": {
+    "E_IN_length_compiled_m": 142.8,
+    "E_IN_length_nominal_m": 150.0,
+    "E_IN_length_ratio_to_nominal": 0.952,
+    "E_IN_nominal_minus_compiled_m": 7.2,
+    "E_IN_length_qc": "ENGINEERING_PLAUSIBILITY_ONLY",
+    "usable_entry_storage_length_m": null,
+    "j0_incoming_lanes": [
+      "E_IN_0",
+      "E_RD_0"
+    ],
+    "required_links_verified": true
+  },
+  "added_entry_edge": "E_IN",
+  "entry_length_m_nominal": 150.0,
+  "junction_merge": {
+    "incoming": [
+      "E_IN",
+      "E_RD"
+    ],
+    "outgoing": "E1",
+    "junction": "J0"
+  },
+  "parking_areas": 7,
+  "capacity_total": 200,
+  "capacity_eligible_general": 170,
+  "new_arrival_route": [
+    "E_IN",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "one_return_route": [
+    "E_IN",
+    "E1",
+    "E2",
+    "E3",
+    "E_RU",
+    "E_RW",
+    "E_RD",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "usable_entry_storage_length_m": null,
+  "geometry_notice": "E_IN creates a new external approach and changes J0 junction priority/merge. Physical queue length, conflict behavior and Event A remain uncalibrated. Formal use is prohibited."
+}

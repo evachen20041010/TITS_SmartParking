@@ -1,0 +1,13 @@
+vehicle_id,time_s,from_state,to_state,reason
+early_park,0.0,,outside,demand_arrival_released
+early_park,1.0,outside,entry_queue,sumo_inserted
+early_park,2.0,entry_queue,cruising,search_started
+early_park,21.0,cruising,parked,physically_parked
+early_park,33.0,parked,departing,parking_stop_ended
+early_park,65.0,departing,completed,normal_exit_after_parking
+late_park,8.0,,outside,demand_arrival_released
+late_park,9.0,outside,entry_queue,sumo_inserted
+late_park,10.0,entry_queue,cruising,search_started
+late_park,155.0,cruising,parked,physically_parked
+late_park,167.0,parked,departing,parking_stop_ended
+late_park,201.0,departing,completed,normal_exit_after_parking

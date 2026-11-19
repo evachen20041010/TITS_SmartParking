@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "formal_experiment": false,
+  "candidate_id": "recirculation_v1",
+  "stage_b_approved": false,
+  "sop_amendment_required": true,
+  "completed": 2,
+  "removed_error": 0,
+  "max_abs_mass_balance_error": 0,
+  "parking_area": "PA_Z2_G",
+  "parked_route_indices": {
+    "early_park": 1,
+    "late_park": 7
+  },
+  "early_route_shortened": true,
+  "early_observed_edges": [
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "late_observed_edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E_RU",
+    "E_RW",
+    "E_RD",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "expected_early_edges": [
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "expected_late_edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E_RU",
+    "E_RW",
+    "E_RD",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "park_pass_check": true,
+  "route_branch_check": true,
+  "runtime_error": null,
+  "final_sim_time_s": 201.0
+}
